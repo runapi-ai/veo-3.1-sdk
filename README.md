@@ -1,4 +1,24 @@
-# Veo API SDK for RunAPI
+<p align="center">
+  <a href="https://runapi.ai"><img src="https://runapi.ai/icon.svg" height="56" alt="RunAPI"></a>
+</p>
+
+<h3 align="center">
+  <a href="https://github.com/runapi-ai/veo-3.1-sdk">Veo 3 API SDK for RunAPI</a>
+</h3>
+
+<p align="center">
+  Veo 3 API SDKs for JavaScript, Ruby, and Go on RunAPI.
+</p>
+
+<div align="center">
+
+[![npm](https://img.shields.io/npm/v/@runapi.ai/veo-3.1)](https://www.npmjs.com/package/@runapi.ai/veo-3.1)
+[![RubyGems](https://img.shields.io/gem/v/runapi-veo-3.1)](https://rubygems.org/gems/runapi-veo-3.1)
+[![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/veo-3.1-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/veo-3.1-sdk/go)
+[![License](https://img.shields.io/github/license/runapi-ai/veo-3.1-sdk)](https://github.com/runapi-ai/veo-3.1-sdk/blob/main/LICENSE)
+
+</div>
+<br/>
 
 The veo api SDK packages JavaScript, Ruby, and Go clients for Veo 3 video generation on RunAPI. Use this veo api SDK for text-to-video, image-to-video, video extension, and 1080p upgrade workflows.
 
