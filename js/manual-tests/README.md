@@ -12,7 +12,7 @@ bin/dev
 
 Server should be available at `http://localhost:3000`.
 
-### 2. Get API Token
+### 2. Get API Key
 
 ```bash
 bin/rails console
@@ -32,7 +32,7 @@ cp .env.example .env
 
 Edit `.env`:
 ```env
-RUNAPI_API_KEY=your-api-token-here
+RUNAPI_API_KEY=your-api-key-here
 RUNAPI_BASE_URL=http://localhost:3000
 ```
 
