@@ -4,14 +4,19 @@ module RunApi
   module Veo31
     module Types
       MODELS = %w[veo-3.1 veo-3.1-fast].freeze
-      TARGET_RESOLUTIONS = %w[1080p 4k].freeze
-      GENERATION_TYPES = %w[TEXT_2_VIDEO FIRST_AND_LAST_FRAMES_2_VIDEO REFERENCE_2_VIDEO].freeze
+      OUTPUT_RESOLUTIONS = %w[1080p 4k].freeze
+      INPUT_MODES = %w[text first_and_last_frames reference].freeze
       ASPECT_RATIOS = %w[16:9 9:16 auto].freeze
+      DURATIONS = [4, 6, 8].freeze
 
       class Video < RunApi::Core::BaseModel
         optional :url, String
         optional :resolution, String
         optional :has_audio
+      end
+
+      class Source < RunApi::Core::BaseModel
+        optional :url, String
       end
 
       class AsyncTaskResponse < RunApi::Core::TaskResponse
@@ -20,29 +25,32 @@ module RunApi
       end
 
       class TextToVideoResponse < AsyncTaskResponse
-        optional :videos, [ -> { Video } ]
-        optional :video, -> { Video }
+        optional :videos, [-> { Video }]
+        optional :sources, [-> { Source }]
       end
 
       class ExtendVideoResponse < AsyncTaskResponse
-        optional :videos, [ -> { Video } ]
-        optional :video, -> { Video }
+        optional :videos, [-> { Video }]
+        optional :sources, [-> { Source }]
       end
 
       class UpscaleVideoResponse < AsyncTaskResponse
-        optional :video, -> { Video }
+        optional :source_task_id, String
+        optional :videos, [-> { Video }]
+        optional :sources, [-> { Source }]
+        optional :media_ids, [String]
       end
 
       class CompletedTextToVideoResponse < TextToVideoResponse
-        required :videos, [ -> { Video } ]
+        required :videos, [-> { Video }]
       end
 
       class CompletedExtendVideoResponse < ExtendVideoResponse
-        required :videos, [ -> { Video } ]
+        required :videos, [-> { Video }]
       end
 
       class CompletedUpscaleVideoResponse < UpscaleVideoResponse
-        required :video, -> { Video }
+        required :videos, [-> { Video }]
       end
     end
   end

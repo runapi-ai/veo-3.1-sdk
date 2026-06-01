@@ -3,7 +3,7 @@
 module RunApi
   module Veo31
     module Resources
-      # Veo 3.1 video upscaling resource.
+      # Veo 3.1 videos upscaling resource.
       class UpscaleVideo
         include RunApi::Core::ResourceHelpers
 
@@ -34,10 +34,10 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "task_id is required" unless params[:task_id] || params["task_id"]
-          resolution = params[:target_resolution] || params["target_resolution"]
-          unless Types::TARGET_RESOLUTIONS.include?(resolution)
-            raise Core::ValidationError, "target_resolution must be one of: #{Types::TARGET_RESOLUTIONS.join(", ")}"
+          raise Core::ValidationError, "source_task_id is required" unless params[:source_task_id] || params["source_task_id"]
+          output_resolution = params[:output_resolution] || params["output_resolution"]
+          unless Types::OUTPUT_RESOLUTIONS.include?(output_resolution)
+            raise Core::ValidationError, "output_resolution must be one of: #{Types::OUTPUT_RESOLUTIONS.join(", ")}"
           end
         end
       end

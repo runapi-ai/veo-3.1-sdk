@@ -22,6 +22,7 @@ describe('TextToVideo', () => {
         prompt: 'A dog playing in a park',
         model: 'veo-3.1-fast',
         aspect_ratio: '16:9',
+        duration_seconds: 6,
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -32,6 +33,7 @@ describe('TextToVideo', () => {
             prompt: 'A dog playing in a park',
             model: 'veo-3.1-fast',
             aspect_ratio: '16:9',
+            duration_seconds: 6,
           },
         }
       );
@@ -46,8 +48,8 @@ describe('TextToVideo', () => {
       const result = await textToVideo.create({
         prompt: 'The dog starts running',
         model: 'veo-3.1-fast',
-        generation_type: 'FIRST_AND_LAST_FRAMES_2_VIDEO',
-        image_urls: ['https://example.com/dog.jpg'],
+        input_mode: 'first_and_last_frames',
+        first_frame_image_url: 'https://cdn.runapi.ai/public/samples/dog.jpg',
         aspect_ratio: '16:9',
       });
 
@@ -58,8 +60,8 @@ describe('TextToVideo', () => {
           body: {
             prompt: 'The dog starts running',
             model: 'veo-3.1-fast',
-            generation_type: 'FIRST_AND_LAST_FRAMES_2_VIDEO',
-            image_urls: ['https://example.com/dog.jpg'],
+            input_mode: 'first_and_last_frames',
+            first_frame_image_url: 'https://cdn.runapi.ai/public/samples/dog.jpg',
             aspect_ratio: '16:9',
           },
         }
@@ -76,6 +78,7 @@ describe('TextToVideo', () => {
         prompt: 'Test video',
         model: 'veo-3.1',
         callback_url: 'https://example.com/callback',
+        duration_seconds: 4,
         seeds: 12345,
         watermark: 'MyBrand',
         enable_translation: false,
@@ -89,6 +92,7 @@ describe('TextToVideo', () => {
             prompt: 'Test video',
             model: 'veo-3.1',
             callback_url: 'https://example.com/callback',
+            duration_seconds: 4,
             seeds: 12345,
             watermark: 'MyBrand',
             enable_translation: false,
@@ -96,6 +100,7 @@ describe('TextToVideo', () => {
         }
       );
     });
+
   });
 
   describe('get', () => {
@@ -125,10 +130,15 @@ describe('TextToVideo', () => {
         model: 'veo-3.1',
         videos: [
           {
-            url: 'https://example.com/video.mp4',
+            url: 'https://cdn.runapi.ai/public/samples/source.mp4',
             resolution: '1080p',
             has_audio: true,
             seed: 12345,
+          },
+        ],
+        sources: [
+          {
+            url: 'https://cdn.runapi.ai/public/samples/source.mp4',
           },
         ],
       };
@@ -139,7 +149,8 @@ describe('TextToVideo', () => {
 
       expect(result.status).toBe('completed');
       expect(result.videos).toHaveLength(1);
-      expect(result.videos?.[0].url).toBe('https://example.com/video.mp4');
+      expect(result.videos?.[0].url).toBe('https://cdn.runapi.ai/public/samples/source.mp4');
+      expect(result.sources?.[0].url).toBe('https://cdn.runapi.ai/public/samples/source.mp4');
     });
   });
 });

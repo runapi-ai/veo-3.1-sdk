@@ -10,7 +10,7 @@ module RunApi
     #     model: "veo-3.1-fast", prompt: "A drone shot over mountains at sunset"
     #   )
     class Client
-      # @return [Resources::TextToVideo] Text, image, and reference-to-video operations.
+      # @return [Resources::TextToVideo] Text, image, and reference-image operations.
       # @return [Resources::ExtendVideo] Video extension operations.
       # @return [Resources::UpscaleVideo] Video upscaling operations.
       attr_reader :text_to_video, :extend_video, :upscale_video

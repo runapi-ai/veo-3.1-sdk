@@ -26,9 +26,12 @@ func (s *stubHTTPClient) Request(_ context.Context, method, path string, opts *c
 func TestTextToVideoCreate(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
+	duration := 6
 	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
-		Prompt: "a sunset",
-		Model:  ModelVeo31,
+		Prompt:          "a sunset",
+		Model:           ModelVeo31,
+		InputMode:       InputMode("text"),
+		DurationSeconds: &duration,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -43,14 +46,48 @@ func TestTextToVideoCreate(t *testing.T) {
 	if body["model"] != string(ModelVeo31) {
 		t.Fatalf("unexpected model: %v", body["model"])
 	}
+	if body["duration_seconds"] != float64(6) && body["duration_seconds"] != 6 {
+		t.Fatalf("unexpected duration_seconds: %v", body["duration_seconds"])
+	}
+	if body["input_mode"] != "text" {
+		t.Fatalf("unexpected input_mode: %v", body["input_mode"])
+	}
+	if _, ok := body["generation_type"]; ok {
+		t.Fatal("expected generation_type to be absent")
+	}
+}
+
+func TestTextToVideoCreateWithFrameInputs(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Prompt:             "a dog starts running",
+		Model:              ModelVeo31Fast,
+		InputMode:          InputMode("first_and_last_frames"),
+		FirstFrameImageURL: "https://cdn.runapi.ai/public/samples/first-frame.jpg",
+		LastFrameImageURL:  "https://cdn.runapi.ai/public/samples/last-frame.jpg",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["first_frame_image_url"] != "https://cdn.runapi.ai/public/samples/first-frame.jpg" {
+		t.Fatalf("unexpected first_frame_image_url: %v", body["first_frame_image_url"])
+	}
+	if body["last_frame_image_url"] != "https://cdn.runapi.ai/public/samples/last-frame.jpg" {
+		t.Fatalf("unexpected last_frame_image_url: %v", body["last_frame_image_url"])
+	}
+	if _, ok := body["image_urls"]; ok {
+		t.Fatalf("unexpected image_urls key in body: %#v", body)
+	}
 }
 
 func TestExtendVideoCreate(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
 	_, err := client.ExtendVideo.Create(context.Background(), ExtendVideoParams{
-		TaskID: "task_orig",
-		Prompt: "extend it",
+		SourceTaskID: "task_orig",
+		Prompt:       "extend it",
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -58,14 +95,21 @@ func TestExtendVideoCreate(t *testing.T) {
 	if stub.method != "POST" || stub.path != "/api/v1/veo_3_1/extend_video" {
 		t.Fatalf("unexpected request: %s %s", stub.method, stub.path)
 	}
+	body := stub.body.(map[string]any)
+	if body["source_task_id"] != "task_orig" {
+		t.Fatalf("unexpected source_task_id: %v", body["source_task_id"])
+	}
+	if _, ok := body["task_id"]; ok {
+		t.Fatalf("unexpected task_id: %#v", body)
+	}
 }
 
 func TestUpscaleVideoCreate(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
 	_, err := client.UpscaleVideo.Create(context.Background(), UpscaleVideoParams{
-		TaskID:           "task_orig",
-		TargetResolution: TargetResolution4K,
+		SourceTaskID:     "task_orig",
+		OutputResolution: OutputResolution4K,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -74,8 +118,8 @@ func TestUpscaleVideoCreate(t *testing.T) {
 		t.Fatalf("unexpected request: %s %s", stub.method, stub.path)
 	}
 	body := stub.body.(map[string]any)
-	if body["target_resolution"] != string(TargetResolution4K) {
-		t.Fatalf("unexpected target_resolution: %v", body["target_resolution"])
+	if body["output_resolution"] != string(OutputResolution4K) {
+		t.Fatalf("unexpected output_resolution: %v", body["output_resolution"])
 	}
 }
 

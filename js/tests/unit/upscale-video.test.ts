@@ -19,8 +19,8 @@ describe('UpscaleVideo', () => {
 
       const upscaleVideo = new UpscaleVideo(mockHttp);
       const result = await upscaleVideo.create({
-        task_id: 'task-123',
-        target_resolution: '1080p',
+        source_task_id: 'task-123',
+        output_resolution: '1080p',
         index: 0,
         callback_url: 'https://example.com/callback',
       });
@@ -30,8 +30,8 @@ describe('UpscaleVideo', () => {
         '/api/v1/veo_3_1/upscale_video',
         {
           body: {
-            task_id: 'task-123',
-            target_resolution: '1080p',
+            source_task_id: 'task-123',
+            output_resolution: '1080p',
             index: 0,
             callback_url: 'https://example.com/callback',
           },
@@ -46,8 +46,8 @@ describe('UpscaleVideo', () => {
 
       const upscaleVideo = new UpscaleVideo(mockHttp);
       await upscaleVideo.create({
-        task_id: 'task-456',
-        target_resolution: '4k',
+        source_task_id: 'task-456',
+        output_resolution: '4k',
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -55,8 +55,8 @@ describe('UpscaleVideo', () => {
         '/api/v1/veo_3_1/upscale_video',
         {
           body: {
-            task_id: 'task-456',
-            target_resolution: '4k',
+            source_task_id: 'task-456',
+            output_resolution: '4k',
           },
         }
       );
@@ -68,7 +68,7 @@ describe('UpscaleVideo', () => {
       const mockResponse: UpscaleVideoResponse = {
         id: 'upscale-123',
         status: 'processing',
-        original_task_id: 'task-123',
+        source_task_id: 'task-123',
       };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -81,6 +81,35 @@ describe('UpscaleVideo', () => {
         {}
       );
       expect(result).toEqual(mockResponse);
+    });
+
+    it('should return completed status with videos, sources, and media ids', async () => {
+      const mockResponse: UpscaleVideoResponse = {
+        id: 'upscale-123',
+        status: 'completed',
+        source_task_id: 'task-123',
+        videos: [
+          {
+            url: 'https://cdn.runapi.ai/public/samples/result.mp4',
+            resolution: '4k',
+          },
+        ],
+        sources: [
+          {
+            url: 'https://cdn.runapi.ai/public/samples/thumb.jpg',
+          },
+        ],
+        media_ids: ['media-1'],
+      };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const upscaleVideo = new UpscaleVideo(mockHttp);
+      const result = await upscaleVideo.get('upscale-123');
+
+      expect(result.status).toBe('completed');
+      expect(result.videos?.[0].url).toBe('https://cdn.runapi.ai/public/samples/result.mp4');
+      expect(result.sources?.[0].url).toBe('https://cdn.runapi.ai/public/samples/thumb.jpg');
+      expect(result.media_ids).toEqual(['media-1']);
     });
   });
 });

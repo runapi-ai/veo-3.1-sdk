@@ -2,11 +2,11 @@ package veo31
 
 type Veo31Model string
 
-type GenerationType string
+type InputMode string
 
 type AspectRatio string
 
-type TargetResolution string
+type OutputResolution string
 
 type TaskStatus string
 
@@ -14,33 +14,36 @@ const (
 	ModelVeo31     Veo31Model = "veo-3.1"
 	ModelVeo31Fast Veo31Model = "veo-3.1-fast"
 
-	TargetResolution1080P TargetResolution = "1080p"
-	TargetResolution4K    TargetResolution = "4k"
+	OutputResolution1080P OutputResolution = "1080p"
+	OutputResolution4K    OutputResolution = "4k"
 )
 
 type TextToVideoParams struct {
-	Prompt            string         `json:"prompt" help:"required; video description"`
-	Model             Veo31Model   `json:"model" help:"optional; veo-3.1 or veo-3.1-fast (default: veo-3.1-fast)"`
-	GenerationType    GenerationType `json:"generation_type,omitempty" help:"optional; TEXT_2_VIDEO, FIRST_AND_LAST_FRAMES_2_VIDEO, REFERENCE_2_VIDEO (auto-detected)"`
-	AspectRatio       AspectRatio    `json:"aspect_ratio,omitempty" help:"optional; 16:9 (default), 9:16, auto"`
-	Seeds             *int           `json:"seeds,omitempty" help:"optional; 10000-99999 for reproducibility"`
-	CallbackURL       string         `json:"callback_url,omitempty" help:"optional; webhook URL"`
-	EnableTranslation *bool          `json:"enable_translation,omitempty" help:"optional; auto-translate prompt to English (default: true)"`
-	Watermark         string         `json:"watermark,omitempty" help:"optional; watermark text"`
-	ImageURLs         []string       `json:"image_urls,omitempty" help:"optional; 1-3 reference image URLs for image-to-video"`
+	Prompt             string      `json:"prompt" help:"required; video description"`
+	Model              Veo31Model  `json:"model" help:"optional; model slug"`
+	InputMode          InputMode   `json:"input_mode,omitempty" help:"optional; input mode"`
+	AspectRatio        AspectRatio `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
+	DurationSeconds    *int        `json:"duration_seconds,omitempty" help:"optional; duration in seconds"`
+	Seeds              *int        `json:"seeds,omitempty" help:"optional; 10000-99999 for reproducibility"`
+	CallbackURL        string      `json:"callback_url,omitempty" help:"optional; webhook URL"`
+	EnableTranslation  *bool       `json:"enable_translation,omitempty" help:"optional; auto-translate prompt to English (default: true)"`
+	Watermark          string      `json:"watermark,omitempty" help:"optional; watermark text"`
+	FirstFrameImageURL string      `json:"first_frame_image_url,omitempty" help:"optional; required for first_and_last_frames input mode"`
+	LastFrameImageURL  string      `json:"last_frame_image_url,omitempty" help:"optional; last frame image URL for first_and_last_frames input mode"`
+	ReferenceImageURLs []string    `json:"reference_image_urls,omitempty" help:"optional; 1-3 reference image URLs for reference input mode"`
 }
 
 type ExtendVideoParams struct {
-	TaskID      string `json:"task_id" help:"required; source task ID to extend"`
-	Prompt      string `json:"prompt" help:"required; extension description"`
-	Seeds       *int   `json:"seeds,omitempty" help:"optional; 10000-99999"`
-	Watermark   string `json:"watermark,omitempty" help:"optional; watermark text"`
-	CallbackURL string `json:"callback_url,omitempty" help:"optional; webhook URL"`
+	SourceTaskID string `json:"source_task_id" help:"required; source task ID to extend"`
+	Prompt       string `json:"prompt" help:"required; extension description"`
+	Seeds        *int   `json:"seeds,omitempty" help:"optional; 10000-99999"`
+	Watermark    string `json:"watermark,omitempty" help:"optional; watermark text"`
+	CallbackURL  string `json:"callback_url,omitempty" help:"optional; webhook URL"`
 }
 
 type UpscaleVideoParams struct {
-	TaskID           string           `json:"task_id" help:"required; source task ID to upscale"`
-	TargetResolution TargetResolution `json:"target_resolution" help:"required; 1080p or 4k"`
+	SourceTaskID     string           `json:"source_task_id" help:"required; source task ID to upscale"`
+	OutputResolution OutputResolution `json:"output_resolution" help:"required; output resolution"`
 	Index            *int             `json:"index,omitempty" help:"optional; video index within the task"`
 	CallbackURL      string           `json:"callback_url,omitempty" help:"optional; webhook URL"`
 }
@@ -67,22 +70,21 @@ type Source struct {
 
 type TextToVideoResponse struct {
 	AsyncTaskResponse
-	Model   Veo31Model    `json:"model,omitempty"`
+	Model   Veo31Model      `json:"model,omitempty"`
 	Videos  []VideoMetadata `json:"videos,omitempty"`
 	Sources []Source        `json:"sources,omitempty"`
 }
 
 type ExtendVideoResponse struct {
 	AsyncTaskResponse
-	OriginalTaskID string          `json:"original_task_id,omitempty"`
-	Videos         []VideoMetadata `json:"videos,omitempty"`
-	Sources        []Source        `json:"sources,omitempty"`
+	Videos  []VideoMetadata `json:"videos,omitempty"`
+	Sources []Source        `json:"sources,omitempty"`
 }
 
 type UpscaleVideoResponse struct {
 	AsyncTaskResponse
-	OriginalTaskID string         `json:"original_task_id,omitempty"`
-	Video          *VideoMetadata `json:"video,omitempty"`
-	Sources        []Source       `json:"sources,omitempty"`
-	MediaIDs       []string       `json:"media_ids,omitempty"`
+	SourceTaskID string          `json:"source_task_id,omitempty"`
+	Videos       []VideoMetadata `json:"videos,omitempty"`
+	Sources      []Source        `json:"sources,omitempty"`
+	MediaIDs     []string        `json:"media_ids,omitempty"`
 }

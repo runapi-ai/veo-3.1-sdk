@@ -21,7 +21,7 @@ const (
 
 // Client is the Veo 3.1 video API client.
 type Client struct {
-	// TextToVideo provides text, image, and reference-to-video operations.
+	// TextToVideo provides text, image, and reference-image operations.
 	TextToVideo *TextToVideo
 	// ExtendVideo provides video extension operations.
 	ExtendVideo *ExtendVideo
@@ -57,7 +57,7 @@ type TextToVideo struct{ http core.HTTPClient }
 // ExtendVideo extends existing videos with additional content.
 type ExtendVideo struct{ http core.HTTPClient }
 
-// UpscaleVideo upscales videos to the requested target resolution.
+// UpscaleVideo upscales videos to the requested output resolution.
 type UpscaleVideo struct{ http core.HTTPClient }
 
 func (r *TextToVideo) Create(ctx context.Context, params TextToVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {

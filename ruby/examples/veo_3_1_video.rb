@@ -26,8 +26,8 @@ puts "\n=== Image-to-Video (First & Last Frames) ==="
 result = client.text_to_video.run(
   model: "veo-3.1-fast",
   prompt: "The dog starts running energetically across the field",
-  generation_type: "FIRST_AND_LAST_FRAMES_2_VIDEO",
-  image_urls: [ ENV.fetch("TEST_IMAGE_URL", "https://raw.githubusercontent.com/ckenst/images-catalog/refs/heads/master/size/small_size/Starbucks%20Dog.jpg") ],
+  input_mode: "first_and_last_frames",
+  first_frame_image_url: ENV.fetch("TEST_IMAGE_URL", "https://raw.githubusercontent.com/ckenst/images-catalog/refs/heads/master/size/small_size/Starbucks%20Dog.jpg"),
   aspect_ratio: "16:9"
 )
 puts "Status: #{result["status"]}"
@@ -38,7 +38,7 @@ end
 # 3. Video extension
 puts "\n=== Video Extension ==="
 result = client.extend_video.run(
-  task_id: result["id"] || raise("No task_id from previous step — cannot extend"),
+  source_task_id: result["id"] || raise("No task id from previous step - cannot extend"),
   prompt: "Continue the scene with the dog jumping into a lake"
 )
 puts "Status: #{result["status"]}"
@@ -49,11 +49,13 @@ end
 # 4. 1080p upscale
 puts "\n=== 1080p Upscale ==="
 result = client.upscale_video.run(
-  task_id: result["id"] || raise("No task_id from previous step — cannot upscale"),
-  target_resolution: "1080p"
+  source_task_id: result["id"] || raise("No task id from previous step - cannot upscale"),
+  output_resolution: "1080p"
 )
 puts "Status: #{result["status"]}"
-puts "Video: #{result["video"]&.dig("url")}" if result["video"]
+result["videos"]&.each_with_index do |video, i|
+  puts "  Video #{i + 1}: #{video["url"]}"
+end
 
 # 5. Manual polling (create + get)
 puts "\n=== Manual Polling ==="

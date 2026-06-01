@@ -34,7 +34,7 @@ Generate and edit video with Veo 3 through RunAPI. The default path for one-off 
 
 The `runapi` binary is the runtime dependency. Run `runapi auth status` first. For agents and headless runs, prefer `RUNAPI_API_KEY` or import it into saved config with `printf '%s' "$RUNAPI_API_KEY" | runapi auth import-token --token -`. Use `runapi login` only when the user explicitly wants interactive browser auth.
 
-Inspect the available actions and request fields with CLI help:
+Inspect the available commands and request fields with CLI help:
 
 ```shell
 runapi veo-3-1 --help
@@ -54,7 +54,9 @@ runapi veo-3-1 text-to-video --async --input-file request.json
 runapi wait <task-id> --service veo-3-1 --action text-to-video
 ```
 
-Available actions: `text-to-video`, `extend-video`, `upscale-video`.
+Available commands: `text-to-video`, `extend-video`, `upscale-video`.
+
+For `text-to-video`, request JSON may include `duration_seconds` with `4`, `6`, or `8` seconds. Omit it to use the default.
 
 ## SDK integration path
 
@@ -72,6 +74,5 @@ When integrating Veo 3 into an app, backend, worker, or library — not for one-
 
 ## Variants
 
-- [Veo 3](https://runapi.ai/models/veo-3.1/veo-3.md)
+- [Veo 3.1](https://runapi.ai/models/veo-3.1/veo-3.1.md)
 - [Veo 3 fast](https://runapi.ai/models/veo-3.1/fast.md)
-

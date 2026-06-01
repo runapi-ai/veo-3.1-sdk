@@ -34,7 +34,7 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "task_id is required" unless params[:task_id] || params["task_id"]
+          raise Core::ValidationError, "source_task_id is required" unless params[:source_task_id] || params["source_task_id"]
           raise Core::ValidationError, "prompt is required" unless params[:prompt] || params["prompt"]
         end
       end

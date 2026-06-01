@@ -17,7 +17,7 @@ import { UpscaleVideo } from './resources/upscale-video';
  * ```
  */
 export class Veo31Client {
-  /** Text, image, and reference-to-video operations. */
+  /** Text, image, and reference-image operations. */
   public readonly textToVideo: TextToVideo;
   /** Video extension operations. */
   public readonly extendVideo: ExtendVideo;

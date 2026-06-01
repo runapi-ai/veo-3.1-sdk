@@ -18,7 +18,7 @@ describe('ExtendVideo', () => {
 
     const extendVideo = new ExtendVideo(mockHttp);
     const result = await extendVideo.create({
-      task_id: 'task-123',
+      source_task_id: 'task-123',
       prompt: 'Continue the scene',
       seeds: 12345,
       watermark: 'MyBrand',
@@ -29,7 +29,7 @@ describe('ExtendVideo', () => {
       '/api/v1/veo_3_1/extend_video',
       {
         body: {
-          task_id: 'task-123',
+          source_task_id: 'task-123',
           prompt: 'Continue the scene',
           seeds: 12345,
           watermark: 'MyBrand',
@@ -43,7 +43,6 @@ describe('ExtendVideo', () => {
     const mockResponse: ExtendVideoResponse = {
       id: 'ext-123',
       status: 'processing',
-      original_task_id: 'task-123',
     };
     vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -56,5 +55,32 @@ describe('ExtendVideo', () => {
       {}
     );
     expect(result).toEqual(mockResponse);
+  });
+
+  it('should return completed status with videos and sources', async () => {
+    const mockResponse: ExtendVideoResponse = {
+      id: 'ext-123',
+      status: 'completed',
+      videos: [
+        {
+          url: 'https://cdn.runapi.ai/public/samples/result.mp4',
+          resolution: '1080p',
+          has_audio: true,
+        },
+      ],
+      sources: [
+        {
+          url: 'https://cdn.runapi.ai/public/samples/source.mp4',
+        },
+      ],
+    };
+    vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+    const extendVideo = new ExtendVideo(mockHttp);
+    const result = await extendVideo.get('ext-123');
+
+    expect(result.status).toBe('completed');
+    expect(result.videos?.[0].url).toBe('https://cdn.runapi.ai/public/samples/result.mp4');
+    expect(result.sources?.[0].url).toBe('https://cdn.runapi.ai/public/samples/source.mp4');
   });
 });

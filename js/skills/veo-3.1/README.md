@@ -23,6 +23,8 @@
 
 Generate video with Veo 3 and Veo 3 Fast text-to-video. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Veo 3 through RunAPI.
 
+Veo 3.1 generation supports text, image, and reference-image requests with optional `duration_seconds` control for 4, 6, or 8 second clips.
+
 The canonical agent file is `skills/veo-3.1/SKILL.md`.
 
 ## Install
@@ -52,6 +54,8 @@ import { Veo31Client } from '@runapi.ai/veo-3-1';
 const client = new Veo31Client();
 const result = await client.textToVideo.run({
   prompt: 'A low-angle tracking shot through a neon market at night',
+  model: 'veo-3.1-fast',
+  duration_seconds: 8,
 });
 ```
 
@@ -61,13 +65,13 @@ const result = await client.textToVideo.run({
 - Product docs: https://runapi.ai/docs#veo-3.1
 - SDK docs: https://runapi.ai/docs#sdk-veo-3.1
 - SDK repository: https://github.com/runapi-ai/veo-3.1-sdk
-- Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3
+- Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Browse all RunAPI models and skills: https://runapi.ai/models
 
 ## Variants
 
-- [Veo 3](https://runapi.ai/models/veo-3.1/veo-3)
+- [Veo 3.1](https://runapi.ai/models/veo-3.1/veo-3.1)
 - [Veo 3 fast](https://runapi.ai/models/veo-3.1/fast)
 
 ## Agent rules

@@ -43,37 +43,60 @@ module RunApi
           end
 
           validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
-          validate_optional!(params, :generation_type, Types::GENERATION_TYPES)
+          validate_optional!(params, :input_mode, Types::INPUT_MODES)
+          validate_duration!(params)
 
-          validate_generation_type!(params)
+          validate_input_mode!(params)
         end
 
-        def validate_generation_type!(params)
-          gen_type = param(params, :generation_type)
-          return unless gen_type
+        def validate_duration!(params)
+          duration_seconds = param(params, :duration_seconds)
+          return unless duration_seconds
+          return if Types::DURATIONS.include?(duration_seconds)
 
-          case gen_type
-          when "FIRST_AND_LAST_FRAMES_2_VIDEO"
-            urls = param(params, :image_urls)
-            raise Core::ValidationError, "image_urls is required for FIRST_AND_LAST_FRAMES_2_VIDEO" unless urls
-            unless urls.is_a?(Array) && urls.length.between?(1, 2)
-              raise Core::ValidationError, "image_urls must contain 1-2 items for FIRST_AND_LAST_FRAMES_2_VIDEO"
+          raise Core::ValidationError, "Invalid duration_seconds: #{duration_seconds}. Must be one of: #{Types::DURATIONS.join(", ")}"
+        end
+
+        def validate_input_mode!(params)
+          input_mode = param(params, :input_mode)
+          return unless input_mode
+
+          case input_mode
+          when "first_and_last_frames"
+            raise Core::ValidationError, "first_frame_image_url is required for first_and_last_frames" unless field_present?(params, :first_frame_image_url)
+            if field_present?(params, :reference_image_urls)
+              raise Core::ValidationError, "reference_image_urls requires input_mode reference"
             end
-          when "REFERENCE_2_VIDEO"
-            urls = param(params, :image_urls)
-            raise Core::ValidationError, "image_urls is required for REFERENCE_2_VIDEO" unless urls
+          when "reference"
+            urls = param(params, :reference_image_urls)
+            raise Core::ValidationError, "reference_image_urls is required for reference" unless urls
             unless urls.is_a?(Array) && urls.length.between?(1, 3)
-              raise Core::ValidationError, "image_urls must contain 1-3 items for REFERENCE_2_VIDEO"
+              raise Core::ValidationError, "reference_image_urls must contain 1-3 items for reference"
             end
             model = param(params, :model)
             unless model == "veo-3.1-fast"
-              raise Core::ValidationError, "REFERENCE_2_VIDEO requires model veo-3.1-fast"
+              raise Core::ValidationError, "reference requires model veo-3.1-fast"
             end
             ar = param(params, :aspect_ratio)
             if ar && ar != "16:9"
-              raise Core::ValidationError, "REFERENCE_2_VIDEO requires aspect_ratio 16:9"
+              raise Core::ValidationError, "reference requires aspect_ratio 16:9"
+            end
+            if field_present?(params, :first_frame_image_url) || field_present?(params, :last_frame_image_url)
+              raise Core::ValidationError, "first_frame_image_url and last_frame_image_url require input_mode first_and_last_frames"
+            end
+          else
+            if field_present?(params, :first_frame_image_url) || field_present?(params, :last_frame_image_url)
+              raise Core::ValidationError, "first_frame_image_url and last_frame_image_url require input_mode first_and_last_frames"
+            end
+            if field_present?(params, :reference_image_urls)
+              raise Core::ValidationError, "reference_image_urls requires input_mode reference"
             end
           end
+        end
+
+        def field_present?(params, key)
+          value = param(params, key)
+          value.is_a?(Array) ? value.any? : !value.nil? && !value.to_s.empty?
         end
       end
     end
