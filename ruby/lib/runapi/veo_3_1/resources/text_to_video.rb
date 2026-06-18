@@ -4,6 +4,7 @@ module RunApi
   module Veo31
     module Resources
       # Veo 3.1 text-to-video resource.
+      # Generate video from text, first/last frame images, or 1-3 reference images.
       class TextToVideo
         include RunApi::Core::ResourceHelpers
 
@@ -16,17 +17,29 @@ module RunApi
           @http = http
         end
 
+        # Generate a video and wait until complete.
+        #
+        # @param params [Hash] text-to-video parameters
+        # @return [RunApi::Veo31::Types::CompletedTextToVideoResponse] completed task with videos
         def run(**params)
           task = create(**params)
           poll_until_complete { get(task.id) }
         end
 
+        # Create a text-to-video task without waiting.
+        #
+        # @param params [Hash] text-to-video parameters
+        # @return [RunApi::Veo31::Types::TextToVideoResponse] task creation result with id
         def create(**params)
           params = compact_params(params)
           validate_params!(params)
           request(:post, ENDPOINT, body: params)
         end
 
+        # Get text-to-video task status by task ID.
+        #
+        # @param id [String] task ID
+        # @return [RunApi::Veo31::Types::TextToVideoResponse] current task status
         def get(id)
           request(:get, "#{ENDPOINT}/#{id}")
         end

@@ -9,6 +9,7 @@ package veo31
 import (
 	"context"
 
+	"github.com/runapi-ai/core-sdk/go/base"
 	"github.com/runapi-ai/core-sdk/go/core"
 	"github.com/runapi-ai/core-sdk/go/option"
 )
@@ -19,13 +20,14 @@ const (
 	upscaleVideoPath = "/api/v1/veo_3_1/upscale_video"
 )
 
-// Client is the Veo 3.1 video API client.
+// Client provides Veo 3.1 video generation, extension, and upscaling operations.
 type Client struct {
-	// TextToVideo provides text, image, and reference-image operations.
+	base.Base
+	// TextToVideo generates video from text, an image starting frame, or reference images.
 	TextToVideo *TextToVideo
-	// ExtendVideo provides video extension operations.
+	// ExtendVideo appends footage to a previously generated video.
 	ExtendVideo *ExtendVideo
-	// UpscaleVideo provides resolution upscaling operations.
+	// UpscaleVideo increases video resolution to 1080p or 4K.
 	UpscaleVideo *UpscaleVideo
 }
 
@@ -45,55 +47,76 @@ func NewClient(opts ...option.ClientOption) (*Client, error) {
 // NewClientWithHTTP creates a Veo 3.1 client with a pre-configured HTTP transport.
 func NewClientWithHTTP(httpClient core.HTTPClient) *Client {
 	return &Client{
+		Base:         base.New(httpClient),
 		TextToVideo:  &TextToVideo{http: httpClient},
 		ExtendVideo:  &ExtendVideo{http: httpClient},
 		UpscaleVideo: &UpscaleVideo{http: httpClient},
 	}
 }
 
-// TextToVideo creates videos from prompts, images, or references.
+// TextToVideo generates video from a text prompt. Optionally set FirstFrameImageURL
+// to animate from a starting image, or use InputMode "reference" with ReferenceImageURLs
+// for style/subject-guided generation.
 type TextToVideo struct{ http core.HTTPClient }
 
-// ExtendVideo extends existing videos with additional content.
+// ExtendVideo appends additional footage to a previously generated video,
+// continuing from where the source task left off. Requires the SourceTaskID
+// of a completed TextToVideo or ExtendVideo task.
 type ExtendVideo struct{ http core.HTTPClient }
 
-// UpscaleVideo upscales videos to the requested output resolution.
+// UpscaleVideo increases the resolution of a previously generated video to 1080p or 4K.
+// Requires the SourceTaskID of a completed TextToVideo or ExtendVideo task.
 type UpscaleVideo struct{ http core.HTTPClient }
 
+// Create submits a text-to-video generation task and returns immediately with the task ID.
 func (r *TextToVideo) Create(ctx context.Context, params TextToVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToVideoPath, core.CompactParams(params), requestOptions)
 }
+
+// Get retrieves the current status and result of a text-to-video task.
 func (r *TextToVideo) Get(ctx context.Context, id string, opts ...option.RequestOption) (*TextToVideoResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	return core.GetJSON[TextToVideoResponse](ctx, r.http, core.ResourcePath(textToVideoPath, id), requestOptions)
 }
+
+// Run submits a text-to-video task and polls until it completes or fails.
 func (r *TextToVideo) Run(ctx context.Context, params TextToVideoParams, opts ...option.RequestOption) (*TextToVideoResponse, error) {
 	_, pollingOptions := option.ResolveRequestOptions(opts...)
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*TextToVideoResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
 }
 
+// Create submits a video extension task and returns immediately with the task ID.
 func (r *ExtendVideo) Create(ctx context.Context, params ExtendVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, extendVideoPath, core.CompactParams(params), requestOptions)
 }
+
+// Get retrieves the current status and result of a video extension task.
 func (r *ExtendVideo) Get(ctx context.Context, id string, opts ...option.RequestOption) (*ExtendVideoResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	return core.GetJSON[ExtendVideoResponse](ctx, r.http, core.ResourcePath(extendVideoPath, id), requestOptions)
 }
+
+// Run submits a video extension task and polls until it completes or fails.
 func (r *ExtendVideo) Run(ctx context.Context, params ExtendVideoParams, opts ...option.RequestOption) (*ExtendVideoResponse, error) {
 	_, pollingOptions := option.ResolveRequestOptions(opts...)
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*ExtendVideoResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
 }
 
+// Create submits a video upscale task and returns immediately with the task ID.
 func (r *UpscaleVideo) Create(ctx context.Context, params UpscaleVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, upscaleVideoPath, core.CompactParams(params), requestOptions)
 }
+
+// Get retrieves the current status and result of a video upscale task.
 func (r *UpscaleVideo) Get(ctx context.Context, id string, opts ...option.RequestOption) (*UpscaleVideoResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	return core.GetJSON[UpscaleVideoResponse](ctx, r.http, core.ResourcePath(upscaleVideoPath, id), requestOptions)
 }
+
+// Run submits a video upscale task and polls until it completes or fails.
 func (r *UpscaleVideo) Run(ctx context.Context, params UpscaleVideoParams, opts ...option.RequestOption) (*UpscaleVideoResponse, error) {
 	_, pollingOptions := option.ResolveRequestOptions(opts...)
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*UpscaleVideoResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
