@@ -7,248 +7,137 @@
 </h3>
 
 <p align="center">
-  Veo 3 API SDKs for JavaScript, Ruby, and Go on RunAPI.
+  Veo 3 API SDKs for JavaScript, Python, Ruby, Go, and Java on RunAPI.
 </p>
 
 <div align="center">
 
-[![npm](https://img.shields.io/npm/v/@runapi.ai/veo-3.1)](https://www.npmjs.com/package/@runapi.ai/veo-3.1)
-[![RubyGems](https://img.shields.io/gem/v/runapi-veo-3.1)](https://rubygems.org/gems/runapi-veo-3.1)
+[![npm](https://img.shields.io/npm/v/@runapi.ai/veo-3-1)](https://www.npmjs.com/package/@runapi.ai/veo-3-1)
+[![PyPI](https://img.shields.io/pypi/v/runapi-veo-3-1)](https://pypi.org/project/runapi-veo-3-1/)
+[![RubyGems](https://img.shields.io/gem/v/runapi-veo_3_1)](https://rubygems.org/gems/runapi-veo_3_1)
 [![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/veo-3.1-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/veo-3.1-sdk/go)
+[![Maven Central](https://img.shields.io/maven-central/v/ai.runapi/runapi-veo-3.1)](https://central.sonatype.com/artifact/ai.runapi/runapi-veo-3.1)
 [![License](https://img.shields.io/github/license/runapi-ai/veo-3.1-sdk)](https://github.com/runapi-ai/veo-3.1-sdk/blob/main/LICENSE)
 
 </div>
 <br/>
 
-The veo api SDK packages JavaScript, Ruby, and Go clients for Veo 3 video generation on RunAPI. Use this veo api SDK for text-to-video, image-to-video, video extension, and 1080p upgrade workflows.
+The Veo 3 API SDK packages JavaScript, Python, Ruby, Go, and Java clients for Veo 3 on RunAPI. Use it for text-to-video, video extension, and video upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-## Installation
+Veo 3 is listed in the RunAPI model catalog at https://runapi.ai/models/veo-3.1. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `veo-3.1-sdk` repository groups the language packages, examples, CI, and release tags for this model.
+
+## Install
 
 ```bash
 npm install @runapi.ai/veo-3-1
-# or
-pnpm add @runapi.ai/veo-3-1
-# or
-yarn add @runapi.ai/veo-3-1
+pip install runapi-veo-3-1
+gem install runapi-veo_3_1
+go get github.com/runapi-ai/veo-3.1-sdk/go@latest
 ```
 
-## Quick Start
+Gradle:
 
-```typescript
-import { Veo31Client } from '@runapi.ai/veo-3-1';
-
-const client = new Veo31Client({
-  apiKey: 'your-api-key',
-  baseUrl: 'https://runapi.ai', // optional
-});
-
-const result = await client.textToVideo.run({
-  prompt: 'A dog playing in a park on a sunny day',
-  model: 'veo-3.1-fast',
-  aspect_ratio: '16:9',
-  duration_seconds: 8,
-});
-
-console.log('Video URL:', result.videos?.[0].url);
-```
-
-## Features
-
-- **Text-to-Video**: Generate videos from text prompts
-- **Image-to-Video**: Animate static images or create transitions between two images
-- **Video Extension**: Extend existing videos with additional content
-- **1080P Upgrade**: Request high-definition versions of generated videos
-- **Full TypeScript Support**: Complete type definitions for all API endpoints
-- **Automatic Polling**: Built-in polling for async video generation
-- **Error Handling**: Comprehensive error types from @runapi.ai/core
-
-## API Reference
-
-### Client Initialization
-
-```typescript
-const client = new Veo31Client({
-  apiKey: string;      // Required: Your RunAPI.ai API key
-  baseUrl?: string;    // Optional: API base URL (defaults to production)
-});
-```
-
-### Video Generation
-
-#### Text-to-Video
-
-```typescript
-const result = await client.textToVideo.run({
-  prompt: 'A beautiful sunset over mountains',
-  model: 'veo-3.1-fast', // or 'veo-3.1' for higher quality
-  aspect_ratio: '16:9', // or '9:16', 'auto'
-  duration_seconds: 8, // optional: 4, 6, or 8 seconds
-  seeds: 12345, // optional: for reproducibility
-  enable_translation: true, // optional: auto-translate to English
-  watermark: 'MyBrand', // optional
-  callback_url: 'https://your-domain.com/webhook', // optional
-});
-```
-
-#### Image-to-Video
-
-```typescript
-const result = await client.textToVideo.run({
-  prompt: 'The dog starts running energetically',
-  model: 'veo-3.1-fast',
-  input_mode: 'first_and_last_frames',
-  first_frame_image_url: 'https://cdn.runapi.ai/public/samples/image-to-video.jpg',
-  aspect_ratio: '16:9',
-  duration_seconds: 8,
-});
-```
-
-#### Manual Control (Create + Poll)
-
-```typescript
-const task = await client.textToVideo.create({
-  prompt: 'A serene lake',
-  model: 'veo-3.1-fast',
-});
-
-const status = await client.textToVideo.get(task.id);
-console.log('Status:', status.status);
-```
-
-### Video Extension
-
-```typescript
-const original = await client.textToVideo.run({
-  prompt: 'A dog playing with a ball',
-  model: 'veo-3.1-fast',
-});
-
-const extended = await client.extendVideo.run({
-  source_task_id: original.id,
-  prompt: 'The dog catches the ball and runs back',
-});
-```
-
-### 1080P Upgrade
-
-```typescript
-const original = await client.textToVideo.run({
-  prompt: 'A cinematic landscape',
-  model: 'veo-3.1',
-  aspect_ratio: '16:9',
-});
-
-const hd = await client.upscaleVideo.run({
-  source_task_id: original.id,
-  output_resolution: '1080p',
-  index: 0,
-});
-
-console.log('1080P video:', hd.videos?.[0]?.url);
-```
-
-## Models
-
-| Model | Description | Pricing | Use Case |
-|-------|-------------|---------|----------|
-| `veo-3.1` | Quality model | [Pricing](https://runapi.ai/models/veo-3.1/veo-3.1) | High fidelity, production use |
-| `veo-3.1-fast` | Fast model | [Pricing](https://runapi.ai/models/veo-3.1/fast) | Rapid iteration and drafts |
-
-## Input Modes
-
-| Type | Description | Requirements |
-|------|-------------|--------------|
-| `text` | Pure text-to-video | Prompt only |
-| `first_and_last_frames` | Image-to-video | `first_frame_image_url`, optional `last_frame_image_url` |
-| `reference` | Reference-based | `reference_image_urls` with 1-3 images, veo-3.1-fast only, 16:9 only |
-
-## Aspect Ratios
-
-- `16:9`: Landscape (default, supports 1080P upgrade)
-- `9:16`: Portrait (mobile-friendly)
-- `auto`: Automatic cropping based on input
-
-## Duration
-
-Text, image, and reference-image requests can set `duration_seconds` to `4`, `6`, or `8` seconds. When omitted, the service uses the default duration.
-
-## Error Handling
-
-```typescript
-import {
-  Veo31Client,
-  AuthenticationError,
-  InsufficientCreditsError,
-  ValidationError,
-  TaskFailedError,
-} from '@runapi.ai/veo-3-1';
-
-try {
-  const result = await client.textToVideo.run({
-    prompt: 'A beautiful scene',
-    model: 'veo-3.1-fast',
-  });
-} catch (error) {
-  if (error instanceof AuthenticationError) {
-    console.error('Invalid API key');
-  } else if (error instanceof InsufficientCreditsError) {
-    console.error('Not enough credits');
-  } else if (error instanceof ValidationError) {
-    console.error('Invalid parameters');
-  } else if (error instanceof TaskFailedError) {
-    console.error('Video generation failed');
-  }
+```kotlin
+dependencies {
+  implementation("ai.runapi:runapi-veo-3.1:0.1.0")
 }
 ```
 
-## Advanced Usage
+Maven:
 
-### Callbacks
-
-```typescript
-const result = await client.textToVideo.create({
-  prompt: 'A video',
-  model: 'veo-3.1-fast',
-  callback_url: 'https://your-domain.com/webhook',
-});
+```xml
+<dependency>
+  <groupId>ai.runapi</groupId>
+  <artifactId>runapi-veo-3.1</artifactId>
+  <version>0.1.0</version>
+</dependency>
 ```
 
-Webhook payload on completion:
-```typescript
-{
-  id: string;
-  status: 'completed' | 'failed';
-  videos?: VideoMetadata[];
-  error?: string;
+Use the Java BOM when installing multiple RunAPI Java modules:
+
+```kotlin
+dependencies {
+  implementation(platform("ai.runapi:runapi-bom:0.1.0"))
+  implementation("ai.runapi:runapi-veo-3.1")
 }
 ```
 
-### Reproducible Generation
+## What you can build
 
-```typescript
-const result1 = await client.textToVideo.run({
-  prompt: 'A scene',
-  model: 'veo-3.1-fast',
-  seeds: 42857,
-});
+- Build apps, agent workflows, batch jobs, and production services around Veo 3 requests.
+- Install only the language package your app needs while keeping one model-specific repository for docs and releases.
+- Use `create` for submit-only jobs, `get` for status lookup, and `run` for submit-and-poll scripts.
+- Upload local files, URL files, or base64 files through shared RunAPI file helpers.
+- Handle validation, authentication, rate limits, insufficient credits, task failures, and polling timeouts through RunAPI SDK errors.
 
-const result2 = await client.textToVideo.run({
-  prompt: 'A scene',
-  model: 'veo-3.1-fast',
-  seeds: 42857,
-});
+## Java quick start
+
+```java
+import ai.runapi.veo31.Veo31Client;
+import ai.runapi.veo31.types.TextToVideoParams;
+import ai.runapi.veo31.types.CompletedTextToVideoResponse;
+import ai.runapi.veo31.types.TextToVideoModel;
+
+Veo31Client client = Veo31Client.builder()
+    .apiKey(System.getenv("RUNAPI_API_KEY"))
+    .build();
+
+CompletedTextToVideoResponse result = client.textToVideo().run(
+    TextToVideoParams.builder()
+        .model(TextToVideoModel.VEO_3_1)
+        .prompt("A graceful orbit shot around a glass observatory")
+        .aspectRatio("16:9")
+        .durationSeconds(4)
+        .build()
+);
 ```
 
-For full veo api documentation including all parameters and response formats, visit https://runapi.ai/docs#veo-3.1.
+Java packages target Java 8 bytecode and are tested on Java 8, 11, 17, and 21. Each model artifact depends on `ai.runapi:runapi-core`, so application code normally installs only `ai.runapi:runapi-veo-3.1`.
 
-## Generated file storage
+## Task lifecycle
+
+Most media endpoints are asynchronous. `create()` submits a task and returns its id, `get(id)` fetches the latest task state, and `run(params)` creates the task and polls until it reaches a terminal state. In web request handlers, prefer `create()` plus webhook or later `get()` polling so the server does not hold a worker open.
+
+## Repository layout
+
+- `js/` publishes `@runapi.ai/veo-3-1`.
+- `python/` publishes `runapi-veo-3-1`.
+- `ruby/` publishes `runapi-veo_3_1` when RubyGems publishing resumes.
+- `go/` publishes `github.com/runapi-ai/veo-3.1-sdk/go` and depends on `github.com/runapi-ai/core-sdk/go`.
+- `java/` publishes `ai.runapi:runapi-veo-3.1` and depends on `ai.runapi:runapi-core`.
+
+## Public links
+
+- Model page: https://runapi.ai/models/veo-3.1
+- SDK docs: https://runapi.ai/docs#sdk-veo-3.1
+- Product docs: https://runapi.ai/docs#veo-3.1
+- SDK repository: https://github.com/runapi-ai/veo-3.1-sdk
+- Skill repository: https://github.com/runapi-ai/veo-3.1
+- Provider comparison: https://runapi.ai/providers/google
+- Full catalog: https://runapi.ai/models
+
+## Pricing and variants
+
+Use the most specific Veo 3 variant page for pricing, rate limits, and commercial usage:
+- [Veo 3](https://runapi.ai/models/veo-3.1/veo-3.1)
+- [Veo 3 fast](https://runapi.ai/models/veo-3.1/fast)
+
+Default pricing link for the Veo 3 SDK: https://runapi.ai/models/veo-3.1/veo-3.1
+
+## File storage
 
 RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.
 
+## FAQ
+
+### Which package should I install for Veo 3 work?
+
+Install the model package for your language: `@runapi.ai/veo-3-1` on npm, `runapi-veo-3-1` on PyPI, `runapi-veo_3_1` on RubyGems, `github.com/runapi-ai/veo-3.1-sdk/go`, or `ai.runapi:runapi-veo-3.1`. Install core SDK packages only when you are building shared SDK infrastructure.
+
+### Where should public links point?
+
+Primary Veo 3 links point to https://runapi.ai/models/veo-3.1. Pricing and usage-policy links point to variant pages such as https://runapi.ai/models/veo-3.1/veo-3.1. Provider comparisons point to https://runapi.ai/providers/google, and broad browsing points to https://runapi.ai/models.
+
 ## License
 
-MIT
-
-## Support
-
-For issues and questions, please visit [https://github.com/runapi-ai/runapi.ai](https://github.com/runapi-ai/runapi.ai)
+Licensed under the Apache License, Version 2.0.

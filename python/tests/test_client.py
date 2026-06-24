@@ -172,7 +172,7 @@ def test_upscale_video_run_narrows_completed_type():
 
 def test_text_to_video_requires_model():
     client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model is required"):
+    with pytest.raises(ValidationError, match="model must be one of: veo-3.1, veo-3.1-fast"):
         client.text_to_video.create(prompt="hi")
 
 
@@ -184,19 +184,19 @@ def test_text_to_video_requires_prompt():
 
 def test_text_to_video_rejects_unknown_model():
     client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid model"):
+    with pytest.raises(ValidationError, match="model must be one of: veo-3.1, veo-3.1-fast"):
         client.text_to_video.create(model="nope", prompt="hi")
 
 
 def test_text_to_video_rejects_invalid_aspect_ratio():
     client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid aspect_ratio"):
+    with pytest.raises(ValidationError, match="aspect_ratio must be one of: 16:9, 9:16, auto"):
         client.text_to_video.create(model="veo-3.1-fast", prompt="hi", aspect_ratio="4:3")
 
 
 def test_text_to_video_rejects_invalid_duration():
     client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid duration_seconds"):
+    with pytest.raises(ValidationError, match="duration_seconds must be one of: 4, 6, 8"):
         client.text_to_video.create(model="veo-3.1-fast", prompt="hi", duration_seconds=5)
 
 

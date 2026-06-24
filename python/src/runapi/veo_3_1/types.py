@@ -4,11 +4,7 @@ from __future__ import annotations
 
 from runapi.core import BaseModel, TaskResponse, optional, required
 
-MODELS = ["veo-3.1", "veo-3.1-fast"]
 OUTPUT_RESOLUTIONS = ["1080p", "4k"]
-INPUT_MODES = ["text", "first_and_last_frames", "reference"]
-ASPECT_RATIOS = ["16:9", "9:16", "auto"]
-DURATIONS = [4, 6, 8]
 
 
 class Video(BaseModel):

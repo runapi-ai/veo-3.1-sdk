@@ -35,7 +35,7 @@ Generate and edit video with Veo 3 through RunAPI. The default path for one-off 
 
 When integrating Veo 3 into an app, backend, worker, library, Rails service, Node service, Go service, webhook pipeline, or production workflow, start by checking the current SDK package and official usage. Confirm install commands, client methods (`create`, `get`, `run`), request fields, response shape, and error classes before using CLI help or raw HTTP examples. Use a RunAPI SDK package:
 
-- JavaScript / TypeScript: `@runapi.ai/veo-3.1`
+- JavaScript / TypeScript: `@runapi.ai/veo-3-1`
 - Ruby: `runapi-veo_3_1`
 - Go: `github.com/runapi-ai/veo-3.1-sdk/go`
 

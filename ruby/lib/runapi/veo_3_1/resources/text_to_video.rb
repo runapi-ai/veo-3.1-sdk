@@ -47,27 +47,11 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "model is required" unless param(params, :model)
+          validate_contract!(CONTRACT["text-to-video"], params)
+
           raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
 
-          model = param(params, :model)
-          unless Types::MODELS.include?(model)
-            raise Core::ValidationError, "Invalid model: #{model}. Must be one of: #{Types::MODELS.join(", ")}"
-          end
-
-          validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
-          validate_optional!(params, :input_mode, Types::INPUT_MODES)
-          validate_duration!(params)
-
           validate_input_mode!(params)
-        end
-
-        def validate_duration!(params)
-          duration_seconds = param(params, :duration_seconds)
-          return unless duration_seconds
-          return if Types::DURATIONS.include?(duration_seconds)
-
-          raise Core::ValidationError, "Invalid duration_seconds: #{duration_seconds}. Must be one of: #{Types::DURATIONS.join(", ")}"
         end
 
         def validate_input_mode!(params)
@@ -105,11 +89,6 @@ module RunApi
               raise Core::ValidationError, "reference_image_urls requires input_mode reference"
             end
           end
-        end
-
-        def field_present?(params, key)
-          value = param(params, key)
-          value.is_a?(Array) ? value.any? : !value.nil? && !value.to_s.empty?
         end
       end
     end

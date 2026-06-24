@@ -1,7 +1,10 @@
 {
-  "name": "@runapi.ai/veo-3.1",
+  "name": "@runapi.ai/veo-3-1",
+  "runapi": {
+    "slug": "veo-3.1"
+  },
   "version": "0.2.7",
-  "description": "RunAPI Veo 3 SDK for JavaScript, Ruby, and Go",
+  "description": "RunAPI Veo 3 SDK for text-to-video, video extension, and video upscale workflows in JavaScript, Python, Ruby, Go, and Java",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -50,7 +53,15 @@
     "sdk",
     "typescript",
     "ruby",
-    "golang"
+    "golang",
+    "java",
+    "python",
+    "maven",
+    "gradle",
+    "video-generation",
+    "text-to-video",
+    "video-api",
+    "veo-api"
   ],
   "author": "RunAPI",
   "license": "Apache-2.0",

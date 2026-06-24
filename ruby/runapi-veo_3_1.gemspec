@@ -3,8 +3,9 @@
 Dir.chdir(__dir__) do
 
   Gem::Specification.new do |spec|
-    spec.name = "runapi-veo-3.1"
+    spec.name = "runapi-veo_3_1"
     spec.version = "0.2.7"
+    spec.metadata["runapi_slug"] = "veo-3.1"
     spec.authors = ["RunAPI"]
     spec.email = ["contact@runapi.ai"]
 
@@ -17,7 +18,6 @@ Dir.chdir(__dir__) do
     spec.metadata["documentation_uri"] = "https://github.com/runapi-ai/veo-3.1-sdk/blob/main/ruby/README.md"
     spec.metadata["source_code_uri"] = "https://github.com/runapi-ai/veo-3.1-sdk"
     spec.metadata["changelog_uri"] = "https://github.com/runapi-ai/veo-3.1-sdk/blob/main/CHANGELOG.md"
-
 
 
     spec.files = Dir.glob("lib/**/*") + %w[LICENSE README.md]

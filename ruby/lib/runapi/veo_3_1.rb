@@ -2,6 +2,7 @@
 
 require "runapi/core"
 require_relative "veo_3_1/types"
+require_relative "veo_3_1/contract_gen"
 require_relative "veo_3_1/resources/text_to_video"
 require_relative "veo_3_1/resources/extend_video"
 require_relative "veo_3_1/resources/upscale_video"

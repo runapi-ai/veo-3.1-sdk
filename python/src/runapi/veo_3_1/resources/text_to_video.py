@@ -6,11 +6,8 @@ from typing import Any, Dict
 
 from runapi.core import Resource, ValidationError
 
+from ..contract_gen import CONTRACT
 from ..types import (
-    ASPECT_RATIOS,
-    DURATIONS,
-    INPUT_MODES,
-    MODELS,
     CompletedTextToVideoResponse,
     TextToVideoResponse,
 )
@@ -61,31 +58,12 @@ class TextToVideo(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}")
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        if not params.get("model"):
-            raise ValidationError("model is required")
+        self._validate_contract(CONTRACT["text-to-video"], params)
+
         if not params.get("prompt"):
             raise ValidationError("prompt is required")
 
-        model = params.get("model")
-        if model not in MODELS:
-            raise ValidationError(f"Invalid model: {model}. Must be one of: {', '.join(MODELS)}")
-
-        self._validate_optional(params, "aspect_ratio", ASPECT_RATIOS)
-        self._validate_optional(params, "input_mode", INPUT_MODES)
-        self._validate_duration(params)
-
         self._validate_input_mode(params)
-
-    def _validate_duration(self, params: Dict[str, Any]) -> None:
-        duration_seconds = params.get("duration_seconds")
-        if not duration_seconds:
-            return
-        if duration_seconds in DURATIONS:
-            return
-
-        raise ValidationError(
-            f"Invalid duration_seconds: {duration_seconds}. Must be one of: {', '.join(str(d) for d in DURATIONS)}"
-        )
 
     def _validate_input_mode(self, params: Dict[str, Any]) -> None:
         input_mode = params.get("input_mode")
@@ -120,10 +98,3 @@ class TextToVideo(Resource):
                 )
             if self._field_present(params, "reference_image_urls"):
                 raise ValidationError("reference_image_urls requires input_mode reference")
-
-    @staticmethod
-    def _field_present(params: Dict[str, Any], key: str) -> bool:
-        value = params.get(key)
-        if isinstance(value, list):
-            return len(value) > 0
-        return value is not None and str(value) != ""

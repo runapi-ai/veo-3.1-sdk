@@ -7,13 +7,13 @@ This veo api README is the Ruby package guide inside the public `veo3-sdk` repos
 ## Install
 
 ```bash
-gem install runapi-veo3
+gem install runapi-veo_3_1
 ```
 
 ## Quick start
 
 ```ruby
-require "runapi-veo3"
+require "runapi-veo_3_1"
 
 client = RunApi::Veo3::Client.new
 task = client.generations.create(
