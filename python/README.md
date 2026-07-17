@@ -1,8 +1,8 @@
-# Veo API Python SDK for RunAPI
+# Veo 3 API Python SDK for RunAPI
 
-The veo api Python SDK is the language-specific package for Veo 3 on RunAPI. Use this veo api package for text-to-video, video extension, and video upscaling flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Python.
+The Veo 3 Python SDK is the language-specific package for Veo 3 on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Python.
 
-This veo api README is the Python package guide inside the public `veo3-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
+This README is the Python package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
 
 ## Install
 
@@ -61,7 +61,7 @@ Pass parameters as keyword arguments and catch the `runapi.veo_3_1` error classe
 - Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
-- Repository: https://github.com/runapi-ai/veo3-sdk
+- Repository: https://github.com/runapi-ai/veo-3.1-sdk
 
 ## License
 

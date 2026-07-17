@@ -7,14 +7,14 @@
 </h3>
 
 <p align="center">
-  Veo 3 API SDKs for JavaScript, Python, Ruby, Go, and Java on RunAPI.
+  Veo 3 API SDKs for JavaScript, Python, Ruby, Go, Java, and PHP on RunAPI.
 </p>
 
 <div align="center">
 
-[![npm](https://img.shields.io/npm/v/@runapi.ai/veo-3-1)](https://www.npmjs.com/package/@runapi.ai/veo-3-1)
+[![npm](https://img.shields.io/npm/v/@runapi.ai/veo-3.1)](https://www.npmjs.com/package/@runapi.ai/veo-3.1)
 [![PyPI](https://img.shields.io/pypi/v/runapi-veo-3-1)](https://pypi.org/project/runapi-veo-3-1/)
-[![RubyGems](https://img.shields.io/gem/v/runapi-veo_3_1)](https://rubygems.org/gems/runapi-veo_3_1)
+[![RubyGems](https://img.shields.io/gem/v/runapi-veo-3.1)](https://rubygems.org/gems/runapi-veo-3.1)
 [![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/veo-3.1-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/veo-3.1-sdk/go)
 [![Maven Central](https://img.shields.io/maven-central/v/ai.runapi/runapi-veo-3.1)](https://central.sonatype.com/artifact/ai.runapi/runapi-veo-3.1)
 [![License](https://img.shields.io/github/license/runapi-ai/veo-3.1-sdk)](https://github.com/runapi-ai/veo-3.1-sdk/blob/main/LICENSE)
@@ -22,16 +22,16 @@
 </div>
 <br/>
 
-The Veo 3 API SDK packages JavaScript, Python, Ruby, Go, and Java clients for Veo 3 on RunAPI. Use it for text-to-video, video extension, and video upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
+The Veo 3 API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Veo 3 on RunAPI. Use it for text-to-video, video extension, and video upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-Veo 3 is listed in the RunAPI model catalog at https://runapi.ai/models/veo-3.1. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `veo-3.1-sdk` repository groups the language packages, examples, CI, and release tags for this model.
+Veo 3 is listed in the RunAPI model catalog at https://runapi.ai/models/veo-3.1. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `veo-3.1-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
 ## Install
 
 ```bash
-npm install @runapi.ai/veo-3-1
+npm install @runapi.ai/veo-3.1
 pip install runapi-veo-3-1
-gem install runapi-veo_3_1
+gem install runapi-veo-3.1
 go get github.com/runapi-ai/veo-3.1-sdk/go@latest
 ```
 
@@ -61,6 +61,8 @@ dependencies {
   implementation("ai.runapi:runapi-veo-3.1")
 }
 ```
+
+The PHP package is published from the split Composer repository as `runapi-ai/veo-3.1`; see https://github.com/runapi-ai/veo-3.1-php for PHP install and examples.
 
 ## What you can build
 
@@ -100,9 +102,9 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 
 ## Repository layout
 
-- `js/` publishes `@runapi.ai/veo-3-1`.
+- `js/` publishes `@runapi.ai/veo-3.1`.
 - `python/` publishes `runapi-veo-3-1`.
-- `ruby/` publishes `runapi-veo_3_1` when RubyGems publishing resumes.
+- `ruby/` publishes `runapi-veo-3.1`.
 - `go/` publishes `github.com/runapi-ai/veo-3.1-sdk/go` and depends on `github.com/runapi-ai/core-sdk/go`.
 - `java/` publishes `ai.runapi:runapi-veo-3.1` and depends on `ai.runapi:runapi-core`.
 
@@ -112,6 +114,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 - SDK docs: https://runapi.ai/docs#sdk-veo-3.1
 - Product docs: https://runapi.ai/docs#veo-3.1
 - SDK repository: https://github.com/runapi-ai/veo-3.1-sdk
+- PHP package repository: https://github.com/runapi-ai/veo-3.1-php
 - Skill repository: https://github.com/runapi-ai/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
@@ -132,7 +135,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ### Which package should I install for Veo 3 work?
 
-Install the model package for your language: `@runapi.ai/veo-3-1` on npm, `runapi-veo-3-1` on PyPI, `runapi-veo_3_1` on RubyGems, `github.com/runapi-ai/veo-3.1-sdk/go`, or `ai.runapi:runapi-veo-3.1`. Install core SDK packages only when you are building shared SDK infrastructure.
+Install the model package for your language: `@runapi.ai/veo-3.1` on npm, `runapi-veo-3-1` on PyPI, `runapi-veo-3.1` on RubyGems, `github.com/runapi-ai/veo-3.1-sdk/go`, `ai.runapi:runapi-veo-3.1` on Maven Central, or `runapi-ai/veo-3.1` on Packagist. Install core SDK packages only when you are building shared SDK infrastructure.
 
 ### Where should public links point?
 

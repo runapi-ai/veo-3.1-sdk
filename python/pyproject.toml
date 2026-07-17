@@ -5,26 +5,25 @@ build-backend = "hatchling.build"
 [project]
 name = "runapi-veo-3-1"
 version = "0.1.0"
-description = "Veo 3.1 video client for RunAPI"
+description = "RunAPI Veo 3 SDK for text-to-video, video extension, and video upscale workflows in JavaScript, Python, Ruby, Go, Java, and PHP"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "Apache-2.0"
 authors = [{ name = "RunAPI", email = "contact@runapi.ai" }]
-keywords = ["runapi", "veo", "veo-3.1", "text-to-video", "ai", "sdk"]
-dependencies = ["runapi-core"]
+keywords = ["runapi", "runapi-ai", "veo-3", "api", "sdk", "typescript", "python", "ruby", "golang", "java", "maven", "gradle", "video-generation", "text-to-video", "video-api", "veo-api"]
+dependencies = ["runapi-core>=0.1.4"]
 
 [project.urls]
-Homepage = "https://runapi.ai/models/veo-3-1"
-Documentation = "https://runapi.ai/docs#sdk-veo-3-1"
+Homepage = "https://runapi.ai/models/veo-3.1"
+Documentation = "https://runapi.ai/docs#sdk-veo-3.1"
+Source = "https://github.com/runapi-ai/veo-3.1-sdk"
+Issues = "https://github.com/runapi-ai/veo-3.1-sdk/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/runapi"]
 
 [tool.uv]
 package = true
-
-[tool.uv.sources]
-runapi-core = { workspace = true }
 
 [dependency-groups]
 dev = ["pytest>=8"]

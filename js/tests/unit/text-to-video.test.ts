@@ -77,7 +77,7 @@ describe('TextToVideo', () => {
       await textToVideo.create({
         prompt: 'Test video',
         model: 'veo-3.1',
-        callback_url: 'https://example.com/callback',
+        callback_url: 'https://your-domain.com/api/callback',
         duration_seconds: 4,
         seeds: 12345,
         watermark: 'MyBrand',
@@ -91,7 +91,7 @@ describe('TextToVideo', () => {
           body: {
             prompt: 'Test video',
             model: 'veo-3.1',
-            callback_url: 'https://example.com/callback',
+            callback_url: 'https://your-domain.com/api/callback',
             duration_seconds: 4,
             seeds: 12345,
             watermark: 'MyBrand',

@@ -21,27 +21,27 @@ module RunApi
         #
         # @param params [Hash] upscale parameters (requires source_task_id and output_resolution)
         # @return [RunApi::Veo31::Types::CompletedUpscaleVideoResponse] completed task with videos
-        def run(**params)
-          task = create(**params)
-          poll_until_complete { get(task.id) }
+        def run(options: nil, **params)
+          task = create(options: options, **params)
+          poll_until_complete { get(task.id, options: options) }
         end
 
         # Create a video upscale task without waiting.
         #
         # @param params [Hash] upscale parameters
         # @return [RunApi::Veo31::Types::UpscaleVideoResponse] task creation result with id
-        def create(**params)
+        def create(options: nil, **params)
           params = compact_params(params)
           validate_params!(params)
-          request(:post, ENDPOINT, body: params)
+          request(:post, ENDPOINT, body: params, options: options)
         end
 
         # Get video upscale task status by task ID.
         #
         # @param id [String] task ID
         # @return [RunApi::Veo31::Types::UpscaleVideoResponse] current task status
-        def get(id)
-          request(:get, "#{ENDPOINT}/#{id}")
+        def get(id, options: nil)
+          request(:get, "#{ENDPOINT}/#{id}", options: options)
         end
 
         private

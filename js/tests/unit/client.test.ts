@@ -40,7 +40,7 @@ describe('Veo31Client', () => {
   it('accepts baseUrl option', () => {
     const client = new Veo31Client({
       apiKey: 'test-key',
-      baseUrl: 'https://api.example.com',
+      baseUrl: 'https://runapi.ai',
     });
     expect(client).toBeInstanceOf(Veo31Client);
   });

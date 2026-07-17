@@ -1,25 +1,25 @@
-# Veo API JavaScript SDK for RunAPI
+# Veo 3 API JavaScript SDK for RunAPI
 
-The veo api JavaScript SDK is the language-specific package for Veo 3 on RunAPI. Use this veo api package for text-to-video, image-to-video, video editing, and animation flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
+The Veo 3 JavaScript SDK is the language-specific package for Veo 3 on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
 
-This veo api README is the JavaScript package guide inside the public `veo3-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
+This README is the JavaScript package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
 
 ## Install
 
 ```bash
-npm install @runapi.ai/veo3
+npm install @runapi.ai/veo-3.1
 ```
 
 ## Quick start
 
 ```typescript
-import { Veo3Client } from '@runapi.ai/veo3';
+import { Veo31Client } from '@runapi.ai/veo-3.1';
 
-const client = new Veo3Client();
-const task = await client.generations.create({
+const client = new Veo31Client();
+const task = await client.textToVideo.create({
   // Pass the Veo 3 JSON request body from https://runapi.ai/docs#veo-3.1.
 });
-const status = await client.generations.get(task.id);
+const status = await client.textToVideo.get(task.id);
 ```
 
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
@@ -28,7 +28,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building video applications. Text-to-video request bodies can include `duration` with `4`, `6`, or `8` seconds. The available resources include generations, extensions, hd1080p, and hd4k. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building video applications. Text-to-video request bodies can include `duration` with `4`, `6`, or `8` seconds. The available resources are `textToVideo`, `extendVideo`, and `upscaleVideo`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
@@ -38,7 +38,7 @@ Use the TypeScript types in `src/types.ts` and the resource classes under `src/r
 - Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
-- Repository: https://github.com/runapi-ai/veo3-sdk
+- Repository: https://github.com/runapi-ai/veo-3.1-sdk
 
 ## License
 

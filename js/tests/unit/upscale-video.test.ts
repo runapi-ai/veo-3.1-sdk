@@ -22,7 +22,7 @@ describe('UpscaleVideo', () => {
         source_task_id: 'task-123',
         output_resolution: '1080p',
         index: 0,
-        callback_url: 'https://example.com/callback',
+        callback_url: 'https://your-domain.com/api/callback',
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -33,7 +33,7 @@ describe('UpscaleVideo', () => {
             source_task_id: 'task-123',
             output_resolution: '1080p',
             index: 0,
-            callback_url: 'https://example.com/callback',
+            callback_url: 'https://your-domain.com/api/callback',
           },
         }
       );

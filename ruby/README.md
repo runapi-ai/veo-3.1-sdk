@@ -1,25 +1,25 @@
-# Veo API Ruby SDK for RunAPI
+# Veo 3 API Ruby SDK for RunAPI
 
-The veo api Ruby SDK is the language-specific package for Veo 3 on RunAPI. Use this veo api package for text-to-video, image-to-video, video editing, and animation flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Ruby.
+The Veo 3 Ruby SDK is the language-specific package for Veo 3 on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Ruby.
 
-This veo api README is the Ruby package guide inside the public `veo3-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
+This README is the Ruby package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
 
 ## Install
 
 ```bash
-gem install runapi-veo_3_1
+gem install runapi-veo-3.1
 ```
 
 ## Quick start
 
 ```ruby
-require "runapi-veo_3_1"
+require "runapi/veo_3_1"
 
-client = RunApi::Veo3::Client.new
-task = client.generations.create(
+client = RunApi::Veo31::Client.new
+task = client.text_to_video.create(
   # Pass the Veo 3 JSON request body from https://runapi.ai/docs#veo-3.1.
 )
-status = client.generations.get(task.id)
+status = client.text_to_video.get(task.id)
 ```
 
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
@@ -28,7 +28,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use Ruby keyword arguments and the `RunApi::Veo3` error classes when building video jobs, Rails workers, or scripts. Text-to-video request bodies can include `duration` with `4`, `6`, or `8` seconds. The available resources include generations, extensions, hd1080p, and hd4k. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use Ruby keyword arguments and the `RunApi::Veo31` error classes when building video jobs, Rails workers, or scripts. Text-to-video request bodies can include `duration` with `4`, `6`, or `8` seconds. The available resources are `text_to_video`, `extend_video`, and `upscale_video`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
@@ -38,7 +38,7 @@ Use Ruby keyword arguments and the `RunApi::Veo3` error classes when building vi
 - Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
-- Repository: https://github.com/runapi-ai/veo3-sdk
+- Repository: https://github.com/runapi-ai/veo-3.1-sdk
 
 ## License
 

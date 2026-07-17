@@ -1,13 +1,13 @@
-# Veo API Go SDK for RunAPI
+# Veo 3 API Go SDK for RunAPI
 
-The veo api Go SDK is the language-specific package for Veo 3 on RunAPI. Use this veo api package for text-to-video, image-to-video, video editing, and animation flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Go.
+The Veo 3 Go SDK is the language-specific package for Veo 3 on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Go.
 
-This veo api README is the Go package guide inside the public `veo3-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
+This README is the Go package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
 
 ## Install
 
 ```bash
-go get github.com/runapi-ai/veo3-sdk/go@latest
+go get github.com/runapi-ai/veo-3.1-sdk/go@latest
 ```
 
 ## Quick start
@@ -16,14 +16,14 @@ go get github.com/runapi-ai/veo3-sdk/go@latest
 import (
   "context"
 
-  "github.com/runapi-ai/veo3-sdk/go/veo3"
+  "github.com/runapi-ai/veo-3.1-sdk/go/veo31"
 )
 
-client, err := veo3.NewClient()
-task, err := client.Generations.Create(context.Background(), veo3.GenerationParams{
+client, err := veo31.NewClient()
+task, err := client.TextToVideo.Create(context.Background(), veo31.TextToVideoParams{
   // Pass the Veo 3 JSON request body from https://runapi.ai/docs#veo-3.1.
 })
-status, err := client.Generations.Get(context.Background(), task.ID)
+status, err := client.TextToVideo.Get(context.Background(), task.ID)
 ```
 
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
@@ -32,7 +32,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when building video services, CLIs, or workers. Text-to-video request bodies can include `duration` with `4`, `6`, or `8` seconds. The available resources include generations, extensions, hd1080p, and hd4k. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when building video services, CLIs, or workers. Text-to-video request bodies can include `duration` with `4`, `6`, or `8` seconds. The available resources are `TextToVideo`, `ExtendVideo`, and `UpscaleVideo`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
@@ -42,7 +42,7 @@ Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when bu
 - Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
-- Repository: https://github.com/runapi-ai/veo3-sdk
+- Repository: https://github.com/runapi-ai/veo-3.1-sdk
 
 ## License
 
