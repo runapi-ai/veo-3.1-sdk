@@ -82,6 +82,23 @@ func TestTextToVideoCreateWithFrameInputs(t *testing.T) {
 	}
 }
 
+func TestTextToVideoCreateRejectsEmptyReferenceImages(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Prompt:             "a dog starts running",
+		Model:              ModelVeo31,
+		InputMode:          InputMode("reference"),
+		ReferenceImageURLs: []string{},
+	})
+	if err == nil || err.Error() != "reference_image_urls must contain between 1 and 3 items" {
+		t.Fatalf("expected item-count validation error, got %v", err)
+	}
+	if stub.method != "" {
+		t.Fatalf("expected validation before HTTP request, got %s %s", stub.method, stub.path)
+	}
+}
+
 func TestExtendVideoCreate(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)

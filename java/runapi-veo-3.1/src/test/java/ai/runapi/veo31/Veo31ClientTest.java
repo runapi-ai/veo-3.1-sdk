@@ -66,6 +66,24 @@ class Veo31ClientTest {
   }
 
   @Test
+  void createRejectsEmptyReferenceImagesBeforeSendingRequest() {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_123\",\"status\":\"processing\"}");
+    Veo31Client client = Veo31Client.builder().apiKey("sk-test").transport(transport).build();
+
+    ValidationException error = assertThrows(
+        ValidationException.class,
+        () -> client.textToVideo().create(
+            TextToVideoParams.builder()
+                .prompt("A small red cube on a plain white table, studio product photo")
+                .model(TextToVideoModel.VEO_3_1)
+                .inputMode("reference")
+                .referenceImageUrls(Collections.emptyList())
+                .build()));
+
+    assertEquals("reference_image_urls must contain between 1 and 3 items", error.getMessage());
+  }
+
+  @Test
   void getDecodesTaskResponseAndExtraFields() {
     CapturingTransport transport = new CapturingTransport("{\"id\":\"task_456\",\"status\":\"completed\",\"videos\":[{\"url\":\"https://file.runapi.ai/generated\"}],\"custom\":\"kept\"}");
     Veo31Client client = Veo31Client.builder().apiKey("sk-test").transport(transport).build();

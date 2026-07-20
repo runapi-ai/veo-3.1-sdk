@@ -79,8 +79,6 @@ class TextToVideo(Resource):
             urls = params.get("reference_image_urls")
             if not urls:
                 raise ValidationError("reference_image_urls is required for reference")
-            if not (isinstance(urls, list) and 1 <= len(urls) <= 3):
-                raise ValidationError("reference_image_urls must contain 1-3 items for reference")
             model = params.get("model")
             if model != "veo-3.1-fast":
                 raise ValidationError("reference requires model veo-3.1-fast")

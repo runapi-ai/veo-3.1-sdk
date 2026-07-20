@@ -67,9 +67,6 @@ module RunApi
           when "reference"
             urls = param(params, :reference_image_urls)
             raise Core::ValidationError, "reference_image_urls is required for reference" unless urls
-            unless urls.is_a?(Array) && urls.length.between?(1, 3)
-              raise Core::ValidationError, "reference_image_urls must contain 1-3 items for reference"
-            end
             model = param(params, :model)
             unless model == "veo-3.1-fast"
               raise Core::ValidationError, "reference requires model veo-3.1-fast"

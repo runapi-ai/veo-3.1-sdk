@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.2.9](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/js%2Fv0.2.9), [ruby/v0.2.8](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/ruby%2Fv0.2.8), [go/v0.2.9](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/go%2Fv0.2.9), [python/v0.1.1](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/python%2Fv0.1.1) - 2026-07-20
+
+### Changed
+- Validate that Veo 3.1 reference mode requests contain between 1 and 3 reference images.
+
+
 ## [js/v0.2.8](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/js%2Fv0.2.8), [go/v0.2.8](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/go%2Fv0.2.8) - 2026-07-17
 
 ### Fixed

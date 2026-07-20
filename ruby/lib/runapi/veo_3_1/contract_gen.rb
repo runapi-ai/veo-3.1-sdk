@@ -30,6 +30,10 @@ module RunApi
             "input_mode" => {
               "enum" => ["text", "first_and_last_frames", "reference"]
             },
+            "reference_image_urls" => {
+              "min_items" => 1,
+              "max_items" => 3
+            },
             "seeds" => {
               "type" => "integer"
             }
@@ -44,6 +48,10 @@ module RunApi
             },
             "input_mode" => {
               "enum" => ["text", "first_and_last_frames", "reference"]
+            },
+            "reference_image_urls" => {
+              "min_items" => 1,
+              "max_items" => 3
             },
             "seeds" => {
               "type" => "integer"

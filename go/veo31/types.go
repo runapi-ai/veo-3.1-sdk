@@ -45,7 +45,7 @@ type TextToVideoParams struct {
 	Watermark          string      `json:"watermark,omitempty" help:"optional; watermark text"`
 	FirstFrameImageURL string      `json:"first_frame_image_url,omitempty" help:"optional; required for first_and_last_frames input mode"`
 	LastFrameImageURL  string      `json:"last_frame_image_url,omitempty" help:"optional; last frame image URL for first_and_last_frames input mode"`
-	ReferenceImageURLs []string    `json:"reference_image_urls,omitempty" help:"optional; 1-3 reference image URLs for reference input mode"`
+	ReferenceImageURLs []string    `json:"reference_image_urls" help:"optional; 1-3 reference image URLs for reference input mode"`
 }
 
 // ExtendVideoParams configures video extension. SourceTaskID must reference a completed
