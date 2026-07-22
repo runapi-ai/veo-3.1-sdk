@@ -8,7 +8,6 @@ public final class TextToVideoModel extends Veo31Value {
   public static final TextToVideoModel VEO_3_1 = new TextToVideoModel("veo-3.1");
   /** veo-3.1-fast model slug. */
   public static final TextToVideoModel VEO_3_1_FAST = new TextToVideoModel("veo-3.1-fast");
-
   /** Creates a model value from a literal model slug. */
   @JsonCreator
   public TextToVideoModel(String value) {

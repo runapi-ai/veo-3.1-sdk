@@ -17,7 +17,7 @@ module RunApi
         }
       },
       "text-to-video" => {
-        "models" => ["veo-3.1", "veo-3.1-fast"],
+        "models" => ["veo-3.1", "veo-3.1-fast", "veo-3.1-lite"],
         "fields_by_model" => {
           "veo-3.1" => {
             "aspect_ratio" => {
@@ -56,8 +56,47 @@ module RunApi
             "seeds" => {
               "type" => "integer"
             }
+          },
+          "veo-3.1-lite" => {
+            "aspect_ratio" => {
+              "enum" => ["16:9", "9:16"]
+            },
+            "duration_seconds" => {
+              "enum" => [4, 6, 8],
+              "type" => "integer"
+            },
+            "input_mode" => {
+              "enum" => ["text", "first_and_last_frames", "reference"]
+            },
+            "reference_image_urls" => {
+              "min_items" => 1,
+              "max_items" => 3
+            },
+            "seeds" => {
+              "type" => "integer"
+            }
           }
-        }
+        },
+        "rules" => [{
+          "when" => {
+            "model" => "veo-3.1-lite"
+          },
+          "forbidden" => ["seeds", "output_resolution"]
+        }, {
+          "when" => {
+            "model" => "veo-3.1-lite",
+            "input_mode" => "reference",
+            "duration_seconds" => 4
+          },
+          "forbidden" => ["duration_seconds"]
+        }, {
+          "when" => {
+            "model" => "veo-3.1-lite",
+            "input_mode" => "reference",
+            "duration_seconds" => 6
+          },
+          "forbidden" => ["duration_seconds"]
+        }]
       },
       "upscale-video" => {
         "models" => [],

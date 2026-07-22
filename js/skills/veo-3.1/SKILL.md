@@ -67,6 +67,8 @@ Available commands: `text-to-video`, `extend-video`, `upscale-video`.
 
 For `text-to-video`, request JSON may include `duration_seconds` with `4`, `6`, or `8` seconds. Omit it to use the default.
 
+Use `veo-3.1-lite` for high-volume 720p generation. Lite supports text, first/last frame, and reference requests, but does not accept `seeds` or `auto`; reference requests must use `16:9` and 8 seconds. Extend only completed `veo-3.1` Quality or `veo-3.1-fast` source tasks. The source task determines the continuation tier automatically, and Lite sources cannot be extended.
+
 ## Generated file storage
 
 RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.
@@ -81,3 +83,4 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 - [Veo 3.1](https://runapi.ai/models/veo-3.1/veo-3.1.md)
 - [Veo 3 fast](https://runapi.ai/models/veo-3.1/fast.md)
+- [Veo 3 Lite](https://runapi.ai/models/veo-3.1/lite.md)

@@ -80,8 +80,8 @@ class TextToVideo(Resource):
             if not urls:
                 raise ValidationError("reference_image_urls is required for reference")
             model = params.get("model")
-            if model != "veo-3.1-fast":
-                raise ValidationError("reference requires model veo-3.1-fast")
+            if model not in {"veo-3.1-fast", "veo-3.1-lite"}:
+                raise ValidationError("reference requires model veo-3.1-fast or veo-3.1-lite")
             ar = params.get("aspect_ratio")
             if ar and ar != "16:9":
                 raise ValidationError("reference requires aspect_ratio 16:9")

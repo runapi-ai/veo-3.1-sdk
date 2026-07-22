@@ -21,7 +21,7 @@
 </div>
 <br/>
 
-Generate video with Veo 3 and Veo 3 Fast text-to-video. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Veo 3 through RunAPI.
+Generate video with Veo 3.1 Quality, Fast, and Lite. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Veo 3 through RunAPI.
 
 Veo 3.1 generation supports text, image, and reference-image requests with optional `duration_seconds` control for 4, 6, or 8 second clips.
 
@@ -54,7 +54,7 @@ import { Veo31Client } from '@runapi.ai/veo-3.1';
 const client = new Veo31Client();
 const result = await client.textToVideo.run({
   prompt: 'A low-angle tracking shot through a neon market at night',
-  model: 'veo-3.1-fast',
+  model: 'veo-3.1-lite',
   duration_seconds: 8,
 });
 ```
@@ -73,6 +73,7 @@ const result = await client.textToVideo.run({
 
 - [Veo 3.1](https://runapi.ai/models/veo-3.1/veo-3.1)
 - [Veo 3 fast](https://runapi.ai/models/veo-3.1/fast)
+- [Veo 3 Lite](https://runapi.ai/models/veo-3.1/lite)
 
 ## Agent rules
 
@@ -80,6 +81,8 @@ const result = await client.textToVideo.run({
 - RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.
 - Keep API keys in `RUNAPI_API_KEY` or RunAPI CLI config; never commit secrets.
 - Prefer `create`, `get`, and `run` JSON passthrough patterns instead of inventing flags for every model parameter.
+- Lite supports text, first/last frame, and reference requests at 720p. Do not send `seeds` or `auto`; Lite reference requests use `16:9` and 8 seconds.
+- Extend only completed Quality or Fast source tasks. The source task determines the tier automatically; Lite sources cannot be extended.
 - For pricing, rate-limit, and commercial-usage answers, link to the variant page rather than the repository README.
 
 ## License

@@ -101,6 +101,51 @@ describe('TextToVideo', () => {
       );
     });
 
+    it('should send a Lite reference request', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-lite' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const textToVideo = new TextToVideo(mockHttp);
+      await textToVideo.create({
+        prompt: 'Keep the subject and composition',
+        model: 'veo-3.1-lite',
+        input_mode: 'reference',
+        aspect_ratio: '16:9',
+        duration_seconds: 8,
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/veo_3_1/text_to_video',
+        {
+          body: {
+            prompt: 'Keep the subject and composition',
+            model: 'veo-3.1-lite',
+            input_mode: 'reference',
+            aspect_ratio: '16:9',
+            duration_seconds: 8,
+            reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+          },
+        }
+      );
+    });
+
+    it('should reject a 4 second Lite reference request before HTTP', async () => {
+      const textToVideo = new TextToVideo(mockHttp);
+
+      await expect(textToVideo.create({
+        prompt: 'Keep the subject and composition',
+        model: 'veo-3.1-lite',
+        input_mode: 'reference',
+        aspect_ratio: '16:9',
+        duration_seconds: 4,
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+      })).rejects.toThrow(/duration_seconds/);
+
+      expect(mockHttp.request).not.toHaveBeenCalled();
+    });
+
   });
 
   describe('get', () => {

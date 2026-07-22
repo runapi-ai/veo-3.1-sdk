@@ -1,13 +1,16 @@
 import type { AsyncTaskStatus } from '@runapi.ai/core';
+import type { contract } from './contract_gen';
 
-export type Veo31Model = 'veo-3.1' | 'veo-3.1-fast';
+type ContractModel<T> = T extends { readonly models: readonly (infer Model extends string)[] } ? Model : never;
+
+export type Veo31Model = ContractModel<(typeof contract)[keyof typeof contract]>;
 export type OutputResolution = '1080p' | '4k';
 
 /**
  * Input modes for video generation.
  * - text: pure text-to-video generation
  * - first_and_last_frames: image-to-video with first/last frame images
- * - reference: reference-based generation with 1-3 reference images (fast model only, 16:9 only)
+ * - reference: reference-based generation with 1-3 reference images (Fast or Lite; Lite uses 8s and 16:9)
  */
 export type InputMode = 'text' | 'first_and_last_frames' | 'reference';
 

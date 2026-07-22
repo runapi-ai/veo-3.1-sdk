@@ -4,7 +4,7 @@ Dir.chdir(__dir__) do
 
   Gem::Specification.new do |spec|
     spec.name = "runapi-veo-3.1"
-    spec.version = "0.2.8"
+    spec.version = "0.2.9"
     spec.metadata["runapi_slug"] = "veo-3.1"
     spec.authors = ["RunAPI"]
     spec.email = ["contact@runapi.ai"]

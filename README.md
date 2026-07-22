@@ -24,6 +24,8 @@
 
 The Veo 3 API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Veo 3 on RunAPI. Use it for text-to-video, video extension, and video upscale workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
+Quality, Fast, and Lite support text and first/last frame generation. Fast and Lite also support reference images; Lite generates 720p video, does not accept `seeds` or `auto`, and requires `16:9` with an 8-second duration for reference requests. Video extension reuses the Quality or Fast tier from the completed source task; Lite sources cannot be extended.
+
 Veo 3 is listed in the RunAPI model catalog at https://runapi.ai/models/veo-3.1. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `veo-3.1-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
 ## Install
@@ -39,7 +41,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-veo-3.1:0.1.1")
+  implementation("ai.runapi:runapi-veo-3.1:0.1.2")
 }
 ```
 
@@ -49,7 +51,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-veo-3.1</artifactId>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
 </dependency>
 ```
 
@@ -57,7 +59,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.2.2"))
+  implementation(platform("ai.runapi:runapi-bom:0.2.4"))
   implementation("ai.runapi:runapi-veo-3.1")
 }
 ```
@@ -86,10 +88,10 @@ Veo31Client client = Veo31Client.builder()
 
 CompletedTextToVideoResponse result = client.textToVideo().run(
     TextToVideoParams.builder()
-        .model(TextToVideoModel.VEO_3_1)
+        .model(new TextToVideoModel("veo-3.1-lite"))
         .prompt("A graceful orbit shot around a glass observatory")
         .aspectRatio("16:9")
-        .durationSeconds(4)
+        .durationSeconds(8)
         .build()
 );
 ```
@@ -124,6 +126,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 Use the most specific Veo 3 variant page for pricing, rate limits, and commercial usage:
 - [Veo 3](https://runapi.ai/models/veo-3.1/veo-3.1)
 - [Veo 3 fast](https://runapi.ai/models/veo-3.1/fast)
+- [Veo 3 Lite](https://runapi.ai/models/veo-3.1/lite)
 
 Default pricing link for the Veo 3 SDK: https://runapi.ai/models/veo-3.1/veo-3.1
 

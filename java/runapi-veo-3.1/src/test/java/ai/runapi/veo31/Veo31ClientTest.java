@@ -2,7 +2,9 @@ package ai.runapi.veo31;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ai.runapi.core.RequestOptions;
 import ai.runapi.core.errors.ValidationException;
@@ -63,6 +65,46 @@ class Veo31ClientTest {
     assertEquals("/api/v1/veo_3_1/text_to_video", transport.request.getPath());
     JsonNode body = bodyJson(transport.request);
     assertNotNull(body);
+  }
+
+  @Test
+  void createSendsLiteReferenceRequest() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
+    Veo31Client client = Veo31Client.builder().apiKey("sk-test").transport(transport).build();
+
+    client.textToVideo().create(
+        TextToVideoParams.builder()
+            .prompt("Keep the subject and composition")
+            .model(new TextToVideoModel("veo-3.1-lite"))
+            .inputMode("reference")
+            .aspectRatio("16:9")
+            .durationSeconds(8)
+            .referenceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/image.jpg"))
+            .build()
+    );
+
+    assertEquals("veo-3.1-lite", bodyJson(transport.request).get("model").asText());
+  }
+
+  @Test
+  void createRejectsFourSecondLiteReferenceBeforeSendingRequest() {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
+    Veo31Client client = Veo31Client.builder().apiKey("sk-test").transport(transport).build();
+
+    ValidationException error = assertThrows(
+        ValidationException.class,
+        () -> client.textToVideo().create(
+            TextToVideoParams.builder()
+                .prompt("Keep the subject and composition")
+                .model(new TextToVideoModel("veo-3.1-lite"))
+                .inputMode("reference")
+                .aspectRatio("16:9")
+                .durationSeconds(4)
+                .referenceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/image.jpg"))
+                .build()));
+
+    assertTrue(error.getMessage().contains("duration_seconds"));
+    assertNull(transport.request);
   }
 
   @Test

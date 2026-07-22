@@ -107,6 +107,33 @@ def test_extend_video_create_posts_source_task_id():
     assert isinstance(result, ExtendVideoResponse)
 
 
+def test_text_to_video_accepts_lite_reference_request():
+    fake = FakeHttp({"id": "lite-1", "status": "processing"})
+    client = Veo31Client(api_key="k", http_client=fake)
+
+    client.text_to_video.create(
+        model="veo-3.1-lite",
+        prompt="Keep the subject and composition",
+        input_mode="reference",
+        aspect_ratio="16:9",
+        duration_seconds=8,
+        reference_image_urls=["https://cdn.runapi.ai/public/samples/image.jpg"],
+    )
+
+    assert fake.calls[0][2]["model"] == "veo-3.1-lite"
+
+
+def test_text_to_video_rejects_non_eight_second_lite_reference():
+    client = Veo31Client(api_key="k", http_client=FakeHttp())
+
+    with pytest.raises(ValidationError, match="duration_seconds"):
+        client.text_to_video.create(
+            model="veo-3.1-lite",
+            prompt="Keep the subject and composition",
+            input_mode="reference",
+            duration_seconds=4,
+            reference_image_urls=["https://cdn.runapi.ai/public/samples/image.jpg"],
+        )
 def test_extend_video_get_fetches_by_id():
     fake = FakeHttp({"id": "e1", "status": "processing"})
     client = Veo31Client(api_key="k", http_client=fake)

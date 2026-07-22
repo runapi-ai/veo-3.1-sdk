@@ -10,7 +10,7 @@ import type {
 
 const ENDPOINT = '/api/v1/veo_3_1/extend_video';
 
-/** Append additional footage to a completed text-to-video or extend-video task. */
+/** Append additional footage to a completed text-to-video task. */
 export class ExtendVideo {
   constructor(private readonly http: HttpClient) {}
 

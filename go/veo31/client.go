@@ -61,11 +61,11 @@ type TextToVideo struct{ http core.HTTPClient }
 
 // ExtendVideo appends additional footage to a previously generated video,
 // continuing from where the source task left off. Requires the SourceTaskID
-// of a completed TextToVideo or ExtendVideo task.
+// of a completed TextToVideo task.
 type ExtendVideo struct{ http core.HTTPClient }
 
 // UpscaleVideo increases the resolution of a previously generated video to 1080p or 4K.
-// Requires the SourceTaskID of a completed TextToVideo or ExtendVideo task.
+// Requires the SourceTaskID of a completed TextToVideo task.
 type UpscaleVideo struct{ http core.HTTPClient }
 
 // Create submits a text-to-video generation task and returns immediately with the task ID.

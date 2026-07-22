@@ -4,7 +4,7 @@ module RunApi
   module Veo31
     module Resources
       # Veo 3.1 video extension resource.
-      # Append additional footage to a completed text-to-video or extend-video task.
+      # Append additional footage to a completed text-to-video task.
       class ExtendVideo
         include RunApi::Core::ResourceHelpers
 

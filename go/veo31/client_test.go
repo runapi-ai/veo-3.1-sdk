@@ -3,6 +3,7 @@ package veo31
 import (
 	"context"
 	"encoding/json"
+	"strings"
 	"testing"
 
 	"github.com/runapi-ai/core-sdk/go/core"
@@ -79,6 +80,47 @@ func TestTextToVideoCreateWithFrameInputs(t *testing.T) {
 	}
 	if _, ok := body["image_urls"]; ok {
 		t.Fatalf("unexpected image_urls key in body: %#v", body)
+	}
+}
+
+func TestTextToVideoCreateWithLiteReference(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	duration := 8
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Prompt:             "Keep the subject and composition",
+		Model:              Veo31Model("veo-3.1-lite"),
+		InputMode:          InputMode("reference"),
+		AspectRatio:        AspectRatio("16:9"),
+		DurationSeconds:    &duration,
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/image.jpg"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "veo-3.1-lite" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+}
+
+func TestTextToVideoCreateRejectsFourSecondLiteReference(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	duration := 4
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Prompt:             "Keep the subject and composition",
+		Model:              Veo31Model("veo-3.1-lite"),
+		InputMode:          InputMode("reference"),
+		AspectRatio:        AspectRatio("16:9"),
+		DurationSeconds:    &duration,
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/image.jpg"},
+	})
+	if err == nil || !strings.Contains(err.Error(), "duration_seconds") {
+		t.Fatalf("expected Lite reference duration validation error, got %v", err)
+	}
+	if stub.method != "" {
+		t.Fatalf("expected validation before HTTP request, got %s %s", stub.method, stub.path)
 	}
 }
 

@@ -3,7 +3,7 @@
   "runapi": {
     "slug": "veo-3.1"
   },
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "RunAPI Veo 3 SDK for text-to-video, video extension, and video upscale workflows in JavaScript, Python, Ruby, Go, Java, and PHP",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

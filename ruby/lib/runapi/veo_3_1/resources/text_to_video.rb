@@ -68,8 +68,8 @@ module RunApi
             urls = param(params, :reference_image_urls)
             raise Core::ValidationError, "reference_image_urls is required for reference" unless urls
             model = param(params, :model)
-            unless model == "veo-3.1-fast"
-              raise Core::ValidationError, "reference requires model veo-3.1-fast"
+            unless %w[veo-3.1-fast veo-3.1-lite].include?(model)
+              raise Core::ValidationError, "reference requires model veo-3.1-fast or veo-3.1-lite"
             end
             ar = param(params, :aspect_ratio)
             if ar && ar != "16:9"

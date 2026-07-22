@@ -4,6 +4,8 @@
 
 The Veo 3 Java SDK is the language-specific package for Veo 3 on RunAPI. Use it when your Java application needs typed builders, strict request validation, task status lookup, local polling helpers, file uploads, account helpers, and consistent RunAPI errors for Veo 3 workflows.
 
+Quality, Fast, and Lite support text and first/last frame generation. Fast and Lite also support reference images. Lite generates 720p video, does not accept `seeds` or `auto`, and uses `16:9` with an 8-second duration for reference requests. Extension reuses the Quality or Fast tier from the completed source task; Lite sources cannot be extended.
+
 This README is the Java package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
 
 ## Requirements
@@ -16,7 +18,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-veo-3.1:0.1.1")
+  implementation("ai.runapi:runapi-veo-3.1:0.1.2")
 }
 ```
 
@@ -26,7 +28,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-veo-3.1</artifactId>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
 </dependency>
 ```
 
@@ -34,7 +36,7 @@ Use the BOM when multiple RunAPI Java modules are installed:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.2.2"))
+  implementation(platform("ai.runapi:runapi-bom:0.2.4"))
   implementation("ai.runapi:runapi-veo-3.1")
 }
 ```
@@ -47,7 +49,7 @@ Maven BOM:
     <dependency>
       <groupId>ai.runapi</groupId>
       <artifactId>runapi-bom</artifactId>
-      <version>0.2.2</version>
+      <version>0.2.4</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -69,10 +71,10 @@ Veo31Client client = Veo31Client.builder()
 
 CompletedTextToVideoResponse result = client.textToVideo().run(
     TextToVideoParams.builder()
-        .model(TextToVideoModel.VEO_3_1)
+        .model(new TextToVideoModel("veo-3.1-lite"))
         .prompt("A graceful orbit shot around a glass observatory")
         .aspectRatio("16:9")
-        .durationSeconds(4)
+        .durationSeconds(8)
         .build()
 );
 ```
@@ -179,7 +181,9 @@ try {
 - Model page: https://runapi.ai/models/veo-3.1
 - SDK docs: https://runapi.ai/docs#sdk-veo-3.1
 - Product docs: https://runapi.ai/docs#veo-3.1
-- Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
+- Quality pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
+- Fast pricing and rate limits: https://runapi.ai/models/veo-3.1/fast
+- Lite pricing and rate limits: https://runapi.ai/models/veo-3.1/lite
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/veo-3.1-sdk
 

@@ -1,6 +1,6 @@
 package veo31
 
-// Veo31Model selects the Veo 3.1 model variant. See [ModelVeo31] and [ModelVeo31Fast].
+// Veo31Model selects the Veo 3.1 model variant.
 type Veo31Model string
 
 // InputMode controls how the video is seeded: pure text, first/last frame images, or reference images.
@@ -20,7 +20,6 @@ const (
 	ModelVeo31 Veo31Model = "veo-3.1"
 	// ModelVeo31Fast is the low-latency model. Faster generation at reduced fidelity.
 	ModelVeo31Fast Veo31Model = "veo-3.1-fast"
-
 	// OutputResolution1080P upscales to 1080p (1920x1080).
 	OutputResolution1080P OutputResolution = "1080p"
 	// OutputResolution4K upscales to 4K (3840x2160). Higher detail, higher cost.
@@ -49,7 +48,7 @@ type TextToVideoParams struct {
 }
 
 // ExtendVideoParams configures video extension. SourceTaskID must reference a completed
-// TextToVideo or ExtendVideo task; the new footage continues from where that video ended.
+// TextToVideo task; the new footage continues from where that video ended.
 type ExtendVideoParams struct {
 	SourceTaskID string `json:"source_task_id" help:"required; source task ID to extend"`
 	Prompt       string `json:"prompt" help:"required; extension description"`
