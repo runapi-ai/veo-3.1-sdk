@@ -1,4 +1,4 @@
-import type { AsyncTaskStatus } from '@runapi.ai/core';
+import type { AsyncTaskStatus, TaskBillingResponse, TaskResponse } from '@runapi.ai/core';
 import type { contract } from './contract_gen';
 
 type ContractModel<T> = T extends { readonly models: readonly (infer Model extends string)[] } ? Model : never;
@@ -74,7 +74,7 @@ export interface UpscaleVideoParams {
   callback_url?: string;
 }
 
-export interface TaskCreateResponse {
+export interface TaskCreateResponse extends TaskBillingResponse {
   id: string;
 }
 
@@ -90,7 +90,7 @@ export interface SourceMetadata {
   [key: string]: unknown;
 }
 
-export interface TextToVideoResponse {
+export interface TextToVideoResponse extends TaskResponse {
   id: string;
   status: AsyncTaskStatus;
   model?: Veo31Model;
@@ -100,7 +100,7 @@ export interface TextToVideoResponse {
   [key: string]: unknown;
 }
 
-export interface ExtendVideoResponse {
+export interface ExtendVideoResponse extends TaskResponse {
   id: string;
   status: AsyncTaskStatus;
   videos?: VideoMetadata[];
@@ -109,7 +109,7 @@ export interface ExtendVideoResponse {
   [key: string]: unknown;
 }
 
-export interface UpscaleVideoResponse {
+export interface UpscaleVideoResponse extends TaskResponse {
   id: string;
   status: AsyncTaskStatus;
   source_task_id?: string;
