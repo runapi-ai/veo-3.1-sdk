@@ -1,5 +1,7 @@
 package veo31
 
+import "github.com/runapi-ai/core-sdk/go/core"
+
 // Veo31Model selects the Veo 3.1 model variant.
 type Veo31Model string
 
@@ -69,6 +71,7 @@ type UpscaleVideoParams struct {
 
 // AsyncTaskResponse carries the task ID, lifecycle status, and error for all Veo 3.1 async operations.
 type AsyncTaskResponse struct {
+	core.TaskBillingFacts
 	ID     string     `json:"id"`
 	Status TaskStatus `json:"status"`
 	Error  string     `json:"error,omitempty"`

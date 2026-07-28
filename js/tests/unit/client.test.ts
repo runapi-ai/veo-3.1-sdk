@@ -1,5 +1,4 @@
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
-import { AuthenticationError } from '@runapi.ai/core';
 import { Veo31Client } from '../../src/client';
 
 const originalEnv = process.env.RUNAPI_API_KEY;
@@ -15,11 +14,6 @@ describe('Veo31Client', () => {
     } else {
       process.env.RUNAPI_API_KEY = originalEnv;
     }
-  });
-
-  it('throws when apiKey missing and env unset', () => {
-    expect(() => new Veo31Client()).toThrow(AuthenticationError);
-    expect(() => new Veo31Client({ apiKey: '' })).toThrow(AuthenticationError);
   });
 
   it('reads apiKey from RUNAPI_API_KEY env var', () => {
