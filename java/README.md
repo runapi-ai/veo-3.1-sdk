@@ -6,7 +6,7 @@ The Veo 3 Java SDK is the language-specific package for Veo 3 on RunAPI. Use it 
 
 Quality, Fast, and Lite support text and first/last frame generation. Fast and Lite also support reference images. Lite generates 720p video, does not accept `seeds` or `auto`, and uses `16:9` with an 8-second duration for reference requests. Extension reuses the Quality or Fast tier from the completed source task; Lite sources cannot be extended.
 
-This README is the Java package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
+This README is the Java package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs/api/veo-3-1/text-to-video; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Requirements
 
@@ -179,8 +179,8 @@ try {
 ## Links
 
 - Model page: https://runapi.ai/models/veo-3.1
-- SDK docs: https://runapi.ai/docs#sdk-veo-3.1
-- Product docs: https://runapi.ai/docs#veo-3.1
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/veo-3-1/text-to-video
 - Quality pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Fast pricing and rate limits: https://runapi.ai/models/veo-3.1/fast
 - Lite pricing and rate limits: https://runapi.ai/models/veo-3.1/lite

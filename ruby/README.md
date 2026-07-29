@@ -2,7 +2,7 @@
 
 The Veo 3 Ruby SDK is the language-specific package for Veo 3 on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Ruby.
 
-This README is the Ruby package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
+This README is the Ruby package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs/api/veo-3-1/text-to-video; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Install
 
@@ -17,7 +17,7 @@ require "runapi/veo_3_1"
 
 client = RunApi::Veo31::Client.new
 task = client.text_to_video.create(
-  # Pass the Veo 3 JSON request body from https://runapi.ai/docs#veo-3.1.
+  # Pass the Veo 3 JSON request body from https://runapi.ai/docs/api/veo-3-1/text-to-video.
 )
 status = client.text_to_video.get(task.id)
 ```
@@ -33,8 +33,8 @@ Use Ruby keyword arguments and the `RunApi::Veo31` error classes when building v
 ## Links
 
 - Model page: https://runapi.ai/models/veo-3.1
-- SDK docs: https://runapi.ai/docs#sdk-veo-3.1
-- Product docs: https://runapi.ai/docs#veo-3.1
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/veo-3-1/text-to-video
 - Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models

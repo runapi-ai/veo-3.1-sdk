@@ -113,8 +113,8 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 ## Public links
 
 - Model page: https://runapi.ai/models/veo-3.1
-- SDK docs: https://runapi.ai/docs#sdk-veo-3.1
-- Product docs: https://runapi.ai/docs#veo-3.1
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/veo-3-1/text-to-video
 - SDK repository: https://github.com/runapi-ai/veo-3.1-sdk
 - PHP package repository: https://github.com/runapi-ai/veo-3.1-php
 - Skill repository: https://github.com/runapi-ai/veo-3.1

@@ -2,7 +2,7 @@
 
 The Veo 3 JavaScript SDK is the language-specific package for Veo 3 on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
 
-This README is the JavaScript package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs#veo-3.1; for SDK docs, use https://runapi.ai/docs#sdk-veo-3.1.
+This README is the JavaScript package guide inside the public `veo-3.1-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/veo-3.1; for API reference, use https://runapi.ai/docs/api/veo-3-1/text-to-video; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Install
 
@@ -17,7 +17,7 @@ import { Veo31Client } from '@runapi.ai/veo-3.1';
 
 const client = new Veo31Client();
 const task = await client.textToVideo.create({
-  // Pass the Veo 3 JSON request body from https://runapi.ai/docs#veo-3.1.
+  // Pass the Veo 3 JSON request body from https://runapi.ai/docs/api/veo-3-1/text-to-video.
 });
 const status = await client.textToVideo.get(task.id);
 ```
@@ -33,8 +33,8 @@ Use the TypeScript types in `src/types.ts` and the resource classes under `src/r
 ## Links
 
 - Model page: https://runapi.ai/models/veo-3.1
-- SDK docs: https://runapi.ai/docs#sdk-veo-3.1
-- Product docs: https://runapi.ai/docs#veo-3.1
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/veo-3-1/text-to-video
 - Pricing and rate limits: https://runapi.ai/models/veo-3.1/veo-3.1
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
