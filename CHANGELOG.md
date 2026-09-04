@@ -1,5 +1,11 @@
 # Changelog
 
+## [ruby/v0.2.12](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/ruby%2Fv0.2.12) - 2026-09-04
+
+### Changed
+- Update the `runapi-core` dependency range so this package remains installable with other current RunAPI Ruby SDKs.
+
+
 ## [ruby/v0.2.11](https://github.com/runapi-ai/veo-3.1-sdk/releases/tag/ruby%2Fv0.2.11) - 2026-08-18
 
 ### Changed
