@@ -71,7 +71,7 @@ type UpscaleVideoParams struct {
 
 // AsyncTaskResponse carries the task ID, lifecycle status, and error for all Veo 3.1 async operations.
 type AsyncTaskResponse struct {
-	core.TaskBillingFacts
+	Usage *core.TaskUsage `json:"usage,omitempty"`
 	ID     string     `json:"id"`
 	Status TaskStatus `json:"status"`
 	Error  string     `json:"error,omitempty"`
