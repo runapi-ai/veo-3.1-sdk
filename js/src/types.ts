@@ -1,4 +1,4 @@
-import type { AsyncTaskStatus, TaskBillingResponse, TaskResponse } from '@runapi.ai/core';
+import type { AsyncTaskStatus, TaskResponse } from '@runapi.ai/core';
 import type { contract } from './contract_gen';
 
 type ContractModel<T> = T extends { readonly models: readonly (infer Model extends string)[] } ? Model : never;
@@ -74,7 +74,7 @@ export interface UpscaleVideoParams {
   callback_url?: string;
 }
 
-export interface TaskCreateResponse extends TaskBillingResponse {
+export interface TaskCreateResponse {
   id: string;
 }
 

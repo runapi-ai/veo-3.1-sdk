@@ -59,7 +59,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.6.2"))
+  implementation(platform("ai.runapi:runapi-bom:0.7.0"))
   implementation("ai.runapi:runapi-veo-3.1")
 }
 ```
