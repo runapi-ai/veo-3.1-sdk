@@ -85,8 +85,7 @@ def test_text_to_video_create_posts_compacted_body():
         model="veo-3.1-fast", prompt="a kite", aspect_ratio="16:9", duration_seconds=None
     )
     assert fake.calls == [
-        ("post", "/api/v1/veo_3_1/text_to_video", {"model": "veo-3.1-fast", "prompt": "a kite", "aspect_ratio": "16:9"}),
-    ]
+        ("post", "/api/v1/veo_3_1/text_to_video", {"model": "veo-3.1-fast", "prompt": "a kite", "aspect_ratio": "16:9"})]
     assert isinstance(result, TextToVideoResponse)
 
 
@@ -102,8 +101,7 @@ def test_extend_video_create_posts_source_task_id():
     client = Veo31Client(api_key="k", http_client=fake)
     result = client.extend_video.create(source_task_id="t1", prompt="keep going")
     assert fake.calls == [
-        ("post", "/api/v1/veo_3_1/extend_video", {"source_task_id": "t1", "prompt": "keep going"}),
-    ]
+        ("post", "/api/v1/veo_3_1/extend_video", {"source_task_id": "t1", "prompt": "keep going"})]
     assert isinstance(result, ExtendVideoResponse)
 
 
@@ -146,8 +144,7 @@ def test_upscale_video_create_posts_source_task_id():
     client = Veo31Client(api_key="k", http_client=fake)
     result = client.upscale_video.create(source_task_id="t1", output_resolution="4k")
     assert fake.calls == [
-        ("post", "/api/v1/veo_3_1/upscale_video", {"source_task_id": "t1", "output_resolution": "4k"}),
-    ]
+        ("post", "/api/v1/veo_3_1/upscale_video", {"source_task_id": "t1", "output_resolution": "4k"})]
     assert isinstance(result, UpscaleVideoResponse)
 
 
@@ -164,7 +161,7 @@ def test_upscale_video_get_fetches_by_id():
 def test_text_to_video_run_narrows_completed_type():
     fake = FakeHttp(
         {"id": "t1", "status": "pending"},
-        {"id": "t1", "status": "completed", "videos": [{"url": "https://x/y.mp4"}]},
+        {"id": "t1", "status": "completed", "usage": {"cost": 0.05}, "videos": [{"url": "https://x/y.mp4"}]},
     )
     client = Veo31Client(api_key="k", http_client=fake)
     result = client.text_to_video.run(model="veo-3.1-fast", prompt="a serene lake")
@@ -175,7 +172,7 @@ def test_text_to_video_run_narrows_completed_type():
 def test_extend_video_run_narrows_completed_type():
     fake = FakeHttp(
         {"id": "e1", "status": "pending"},
-        {"id": "e1", "status": "completed", "videos": [{"url": "https://x/e.mp4"}]},
+        {"id": "e1", "status": "completed", "usage": {"cost": 0.05}, "videos": [{"url": "https://x/e.mp4"}]},
     )
     client = Veo31Client(api_key="k", http_client=fake)
     result = client.extend_video.run(source_task_id="t1", prompt="continue")
@@ -186,7 +183,7 @@ def test_extend_video_run_narrows_completed_type():
 def test_upscale_video_run_narrows_completed_type():
     fake = FakeHttp(
         {"id": "u1", "status": "pending"},
-        {"id": "u1", "status": "completed", "videos": [{"url": "https://x/u.mp4"}]},
+        {"id": "u1", "status": "completed", "usage": {"cost": 0.05}, "videos": [{"url": "https://x/u.mp4"}]},
     )
     client = Veo31Client(api_key="k", http_client=fake)
     result = client.upscale_video.run(source_task_id="t1", output_resolution="1080p")
