@@ -83,7 +83,7 @@ public final class TextToVideoParams {
 
     /** Sets the text prompt. */
     public Builder prompt(String value) {
-      this.prompt = Veo31ParamUtils.requireNonBlank(value, "prompt");
+      this.prompt = value;
       return this;
     }
 
@@ -95,20 +95,20 @@ public final class TextToVideoParams {
 
     /** Sets the model slug using a string value. */
     public Builder model(String value) {
-      this.model = Veo31ParamUtils.requireNonBlankTrim(value, "model");
+      this.model = value;
       return this;
     }
 
 
     /** Sets the input mode. */
     public Builder inputMode(String value) {
-      this.inputMode = Veo31ParamUtils.requireNonBlank(value, "inputMode");
+      this.inputMode = value;
       return this;
     }
 
     /** Sets the output aspect ratio. */
     public Builder aspectRatio(String value) {
-      this.aspectRatio = Veo31ParamUtils.requireNonBlank(value, "aspectRatio");
+      this.aspectRatio = value;
       return this;
     }
 
@@ -126,7 +126,7 @@ public final class TextToVideoParams {
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = Veo31ParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 
@@ -144,13 +144,13 @@ public final class TextToVideoParams {
 
     /** Sets the first frame image URL. */
     public Builder firstFrameImageUrl(String value) {
-      this.firstFrameImageUrl = Veo31ParamUtils.requireNonBlank(value, "firstFrameImageUrl");
+      this.firstFrameImageUrl = value;
       return this;
     }
 
     /** Sets the last frame image URL. */
     public Builder lastFrameImageUrl(String value) {
-      this.lastFrameImageUrl = Veo31ParamUtils.requireNonBlank(value, "lastFrameImageUrl");
+      this.lastFrameImageUrl = value;
       return this;
     }
 

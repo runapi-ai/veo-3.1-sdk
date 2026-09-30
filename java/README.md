@@ -2,7 +2,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/ai.runapi/runapi-veo-3.1)](https://central.sonatype.com/artifact/ai.runapi/runapi-veo-3.1)
 
-The Veo 3 Java SDK is the language-specific package for Veo 3 on RunAPI. Use it when your Java application needs typed builders, strict request validation, task status lookup, local polling helpers, file uploads, account helpers, and consistent RunAPI errors for Veo 3 workflows.
+The Veo 3 Java SDK is the language-specific package for Veo 3 on RunAPI. Use it when your Java application needs typed builders, server-side request validation, task status lookup, local polling helpers, file uploads, account helpers, and consistent RunAPI errors for Veo 3 workflows.
 
 Quality, Fast, and Lite support text and first/last frame generation. Fast and Lite also support reference images. Lite generates 720p video, does not accept `seeds` or `auto`, and uses `16:9` with an 8-second duration for reference requests. Extension reuses the Quality or Fast tier from the completed source task; Lite sources cannot be extended.
 
@@ -18,7 +18,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-veo-3.1:0.1.2")
+  implementation("ai.runapi:runapi-veo-3.1:0.2.0")
 }
 ```
 
@@ -28,7 +28,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-veo-3.1</artifactId>
-  <version>0.1.2</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
@@ -36,7 +36,7 @@ Use the BOM when multiple RunAPI Java modules are installed:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.7.0"))
+  implementation(platform("ai.runapi:runapi-bom:0.9.0"))
   implementation("ai.runapi:runapi-veo-3.1")
 }
 ```
@@ -49,7 +49,7 @@ Maven BOM:
     <dependency>
       <groupId>ai.runapi</groupId>
       <artifactId>runapi-bom</artifactId>
-      <version>0.7.0</version>
+      <version>0.9.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -163,12 +163,9 @@ All SDK errors extend `RunApiException`.
 ```java
 import ai.runapi.core.errors.RateLimitException;
 import ai.runapi.core.errors.RunApiException;
-import ai.runapi.core.errors.ValidationException;
 
 try {
   client.textToVideo().run(params);
-} catch (ValidationException error) {
-  System.err.println(error.getMessage());
 } catch (RateLimitException error) {
   System.err.println(error.getRetryAfter());
 } catch (RunApiException error) {

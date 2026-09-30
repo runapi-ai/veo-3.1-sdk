@@ -131,21 +131,6 @@ describe('TextToVideo', () => {
       );
     });
 
-    it('should reject a 4 second Lite reference request before HTTP', async () => {
-      const textToVideo = new TextToVideo(mockHttp);
-
-      await expect(textToVideo.create({
-        prompt: 'Keep the subject and composition',
-        model: 'veo-3.1-lite',
-        input_mode: 'reference',
-        aspect_ratio: '16:9',
-        duration_seconds: 4,
-        reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
-      })).rejects.toThrow(/duration_seconds/);
-
-      expect(mockHttp.request).not.toHaveBeenCalled();
-    });
-
   });
 
   describe('get', () => {

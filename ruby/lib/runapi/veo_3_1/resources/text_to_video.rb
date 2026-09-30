@@ -32,7 +32,6 @@ module RunApi
         # @return [RunApi::Veo31::Types::TextToVideoResponse] task creation result with id
         def create(options: nil, **params)
           params = compact_params(params)
-          validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end
 
@@ -42,50 +41,6 @@ module RunApi
         # @return [RunApi::Veo31::Types::TextToVideoResponse] current task status
         def get(id, options: nil)
           request(:get, "#{ENDPOINT}/#{id}", options: options)
-        end
-
-        private
-
-        def validate_params!(params)
-          validate_contract!(CONTRACT["text-to-video"], params)
-
-          raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-
-          validate_input_mode!(params)
-        end
-
-        def validate_input_mode!(params)
-          input_mode = param(params, :input_mode)
-          return unless input_mode
-
-          case input_mode
-          when "first_and_last_frames"
-            raise Core::ValidationError, "first_frame_image_url is required for first_and_last_frames" unless field_present?(params, :first_frame_image_url)
-            if field_present?(params, :reference_image_urls)
-              raise Core::ValidationError, "reference_image_urls requires input_mode reference"
-            end
-          when "reference"
-            urls = param(params, :reference_image_urls)
-            raise Core::ValidationError, "reference_image_urls is required for reference" unless urls
-            model = param(params, :model)
-            unless %w[veo-3.1-fast veo-3.1-lite].include?(model)
-              raise Core::ValidationError, "reference requires model veo-3.1-fast or veo-3.1-lite"
-            end
-            ar = param(params, :aspect_ratio)
-            if ar && ar != "16:9"
-              raise Core::ValidationError, "reference requires aspect_ratio 16:9"
-            end
-            if field_present?(params, :first_frame_image_url) || field_present?(params, :last_frame_image_url)
-              raise Core::ValidationError, "first_frame_image_url and last_frame_image_url require input_mode first_and_last_frames"
-            end
-          else
-            if field_present?(params, :first_frame_image_url) || field_present?(params, :last_frame_image_url)
-              raise Core::ValidationError, "first_frame_image_url and last_frame_image_url require input_mode first_and_last_frames"
-            end
-            if field_present?(params, :reference_image_urls)
-              raise Core::ValidationError, "reference_image_urls requires input_mode reference"
-            end
-          end
         end
       end
     end

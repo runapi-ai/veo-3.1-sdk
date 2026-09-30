@@ -32,7 +32,6 @@ module RunApi
         # @return [RunApi::Veo31::Types::ExtendVideoResponse] task creation result with id
         def create(options: nil, **params)
           params = compact_params(params)
-          validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end
 
@@ -42,13 +41,6 @@ module RunApi
         # @return [RunApi::Veo31::Types::ExtendVideoResponse] current task status
         def get(id, options: nil)
           request(:get, "#{ENDPOINT}/#{id}", options: options)
-        end
-
-        private
-
-        def validate_params!(params)
-          raise Core::ValidationError, "source_task_id is required" unless params[:source_task_id] || params["source_task_id"]
-          raise Core::ValidationError, "prompt is required" unless params[:prompt] || params["prompt"]
         end
       end
     end

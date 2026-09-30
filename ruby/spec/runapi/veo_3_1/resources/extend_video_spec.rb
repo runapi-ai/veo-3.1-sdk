@@ -16,11 +16,6 @@ RSpec.describe RunApi::Veo31::Resources::ExtendVideo do
       result = extend_video.create(**params)
       expect(result["id"]).to eq("ext-1")
     end
-
-    it "raises ValidationError when source_task_id is missing" do
-      expect { extend_video.create(prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /source_task_id is required/)
-    end
   end
 
   describe "#get" do

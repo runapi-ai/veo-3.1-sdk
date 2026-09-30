@@ -1,9 +1,5 @@
 import type { AsyncTaskStatus, TaskResponse } from '@runapi.ai/core';
-import type { contract } from './contract_gen';
-
-type ContractModel<T> = T extends { readonly models: readonly (infer Model extends string)[] } ? Model : never;
-
-export type Veo31Model = ContractModel<(typeof contract)[keyof typeof contract]>;
+export type Veo31Model = 'veo-3.1' | 'veo-3.1-fast' | 'veo-3.1-lite';
 export type OutputResolution = '1080p' | '4k';
 
 /**

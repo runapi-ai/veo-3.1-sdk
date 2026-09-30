@@ -51,13 +51,13 @@ public final class UpscaleVideoParams {
 
     /** Sets the source task ID. */
     public Builder sourceTaskId(String value) {
-      this.sourceTaskId = Veo31ParamUtils.requireNonBlank(value, "sourceTaskId");
+      this.sourceTaskId = value;
       return this;
     }
 
     /** Sets the output resolution. */
     public Builder outputResolution(String value) {
-      this.outputResolution = Veo31ParamUtils.requireNonBlank(value, "outputResolution");
+      this.outputResolution = value;
       return this;
     }
 
@@ -69,7 +69,7 @@ public final class UpscaleVideoParams {
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = Veo31ParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 

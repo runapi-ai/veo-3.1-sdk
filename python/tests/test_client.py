@@ -1,7 +1,7 @@
 import pytest
 
 from runapi.core import config
-from runapi.core.errors import AuthenticationError, ValidationError
+from runapi.core.errors import AuthenticationError
 from runapi.veo_3_1 import Veo31Client
 from runapi.veo_3_1.resources.extend_video import ExtendVideo
 from runapi.veo_3_1.resources.text_to_video import TextToVideo
@@ -121,17 +121,6 @@ def test_text_to_video_accepts_lite_reference_request():
     assert fake.calls[0][2]["model"] == "veo-3.1-lite"
 
 
-def test_text_to_video_rejects_non_eight_second_lite_reference():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-
-    with pytest.raises(ValidationError, match="duration_seconds"):
-        client.text_to_video.create(
-            model="veo-3.1-lite",
-            prompt="Keep the subject and composition",
-            input_mode="reference",
-            duration_seconds=4,
-            reference_image_urls=["https://cdn.runapi.ai/public/samples/image.jpg"],
-        )
 def test_extend_video_get_fetches_by_id():
     fake = FakeHttp({"id": "e1", "status": "processing"})
     client = Veo31Client(api_key="k", http_client=fake)
@@ -189,88 +178,3 @@ def test_upscale_video_run_narrows_completed_type():
     result = client.upscale_video.run(source_task_id="t1", output_resolution="1080p")
     assert isinstance(result, CompletedUpscaleVideoResponse)
     assert result.videos[0].url == "https://x/u.mp4"
-
-
-# --- validation -----------------------------------------------------------
-
-
-def test_text_to_video_requires_model():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model must be one of: veo-3.1, veo-3.1-fast"):
-        client.text_to_video.create(prompt="hi")
-
-
-def test_text_to_video_requires_prompt():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="prompt is required"):
-        client.text_to_video.create(model="veo-3.1-fast")
-
-
-def test_text_to_video_rejects_unknown_model():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model must be one of: veo-3.1, veo-3.1-fast"):
-        client.text_to_video.create(model="nope", prompt="hi")
-
-
-def test_text_to_video_rejects_invalid_aspect_ratio():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="aspect_ratio must be one of: 16:9, 9:16, auto"):
-        client.text_to_video.create(model="veo-3.1-fast", prompt="hi", aspect_ratio="4:3")
-
-
-def test_text_to_video_rejects_invalid_duration():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="duration_seconds must be one of: 4, 6, 8"):
-        client.text_to_video.create(model="veo-3.1-fast", prompt="hi", duration_seconds=5)
-
-
-def test_first_and_last_frames_requires_first_frame():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="first_frame_image_url is required for first_and_last_frames"):
-        client.text_to_video.create(model="veo-3.1-fast", prompt="hi", input_mode="first_and_last_frames")
-
-
-def test_reference_requires_reference_image_urls():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="reference_image_urls is required for reference"):
-        client.text_to_video.create(model="veo-3.1-fast", prompt="hi", input_mode="reference")
-
-
-def test_reference_requires_fast_model():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="reference requires model veo-3.1-fast"):
-        client.text_to_video.create(
-            model="veo-3.1", prompt="hi", input_mode="reference", reference_image_urls=["https://x/a.png"]
-        )
-
-
-def test_reference_image_urls_without_reference_mode_rejected():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="reference_image_urls requires input_mode reference"):
-        client.text_to_video.create(
-            model="veo-3.1-fast", prompt="hi", input_mode="text", reference_image_urls=["https://x/a.png"]
-        )
-
-
-def test_extend_video_requires_source_task_id():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="source_task_id is required"):
-        client.extend_video.create(prompt="continue")
-
-
-def test_extend_video_requires_prompt():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="prompt is required"):
-        client.extend_video.create(source_task_id="t1")
-
-
-def test_upscale_video_requires_source_task_id():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="source_task_id is required"):
-        client.upscale_video.create(output_resolution="4k")
-
-
-def test_upscale_video_rejects_invalid_output_resolution():
-    client = Veo31Client(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="output_resolution must be one of"):
-        client.upscale_video.create(source_task_id="t1", output_resolution="720p")

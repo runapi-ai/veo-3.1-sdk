@@ -16,16 +16,6 @@ RSpec.describe RunApi::Veo31::Resources::UpscaleVideo do
       result = upscale_video.create(**params)
       expect(result["id"]).to eq("upscale-1")
     end
-
-    it "raises ValidationError when source_task_id is missing" do
-      expect { upscale_video.create(output_resolution: "1080p") }
-        .to raise_error(RunApi::Core::ValidationError, /source_task_id is required/)
-    end
-
-    it "raises ValidationError when output_resolution is invalid" do
-      expect { upscale_video.create(source_task_id: "task-1", output_resolution: "720p") }
-        .to raise_error(RunApi::Core::ValidationError, /output_resolution/)
-    end
   end
 
   describe "#get" do

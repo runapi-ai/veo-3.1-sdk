@@ -13,7 +13,7 @@ public final class ExtendVideoParams {
   private final String callbackUrl;
 
   private ExtendVideoParams(Builder builder) {
-    this.sourceTaskId = Veo31ParamUtils.requireNonBlank(builder.sourceTaskId, "sourceTaskId");
+    this.sourceTaskId = builder.sourceTaskId;
     this.prompt = builder.prompt;
     this.seeds = builder.seeds;
     this.watermark = builder.watermark;
@@ -55,13 +55,13 @@ public final class ExtendVideoParams {
 
     /** Sets the source task ID. */
     public Builder sourceTaskId(String value) {
-      this.sourceTaskId = Veo31ParamUtils.requireNonBlank(value, "sourceTaskId");
+      this.sourceTaskId = value;
       return this;
     }
 
     /** Sets the text prompt. */
     public Builder prompt(String value) {
-      this.prompt = Veo31ParamUtils.requireNonBlank(value, "prompt");
+      this.prompt = value;
       return this;
     }
 
@@ -79,7 +79,7 @@ public final class ExtendVideoParams {
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = Veo31ParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 

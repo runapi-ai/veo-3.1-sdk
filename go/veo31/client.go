@@ -72,9 +72,6 @@ type UpscaleVideo struct{ http core.HTTPClient }
 func (r *TextToVideo) Create(ctx context.Context, params TextToVideoParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
-	if err := core.ValidateParams(contractSchema["text-to-video"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToVideoPath, body, requestOptions)
 }
 

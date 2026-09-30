@@ -19,30 +19,10 @@ RSpec.describe RunApi::Veo31::Resources::TextToVideo do
       expect(result["id"]).to eq("task-1")
     end
 
-    it "raises ValidationError when model is missing" do
-      expect { text_to_video.create(prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /model must be one of: veo-3\.1, veo-3\.1-fast/)
-    end
-
-    it "raises ValidationError when prompt is missing" do
-      expect { text_to_video.create(model: "veo-3.1") }
-        .to raise_error(RunApi::Core::ValidationError, /prompt is required/)
-    end
-
-    it "raises ValidationError for invalid model" do
-      expect { text_to_video.create(model: "invalid", prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /model must be one of: veo-3\.1, veo-3\.1-fast/)
-    end
-
     it "passes valid optional params" do
       params = {model: "veo-3.1-fast", prompt: "test", aspect_ratio: "16:9", duration_seconds: 6, input_mode: "text"}
       expect(http).to receive(:request).with(:post, endpoint, body: params).and_return("id" => "t1")
       text_to_video.create(**params)
-    end
-
-    it "raises ValidationError for invalid duration_seconds" do
-      expect { text_to_video.create(model: "veo-3.1-fast", prompt: "test", duration_seconds: 5) }
-        .to raise_error(RunApi::Core::ValidationError, /duration_seconds must be one of: 4, 6, 8/)
     end
   end
 
@@ -61,25 +41,8 @@ RSpec.describe RunApi::Veo31::Resources::TextToVideo do
     text_to_video.create(**params)
   end
 
-  it "rejects a non-eight-second Lite reference request" do
-    expect {
-      text_to_video.create(
-        model: "veo-3.1-lite",
-        prompt: "Keep the subject and composition",
-        input_mode: "reference",
-        duration_seconds: 4,
-        reference_image_urls: ["https://cdn.runapi.ai/public/samples/image.jpg"]
-      )
-    }.to raise_error(RunApi::Core::ValidationError, /duration_seconds/)
-  end
-
   describe "frame and reference input mode validation" do
     let(:base) { {model: "veo-3.1-fast", prompt: "test", input_mode: "reference", aspect_ratio: "16:9"} }
-
-    it "requires reference_image_urls" do
-      expect { text_to_video.create(**base) }
-        .to raise_error(RunApi::Core::ValidationError, /reference_image_urls is required/)
-    end
 
     it "passes first and last frame params" do
       params = {
@@ -91,11 +54,6 @@ RSpec.describe RunApi::Veo31::Resources::TextToVideo do
       }
       expect(http).to receive(:request).with(:post, endpoint, body: params).and_return("id" => "t1")
       text_to_video.create(**params)
-    end
-
-    it "requires the fast or Lite model" do
-      expect { text_to_video.create(model: "veo-3.1", prompt: "test", input_mode: "reference", reference_image_urls: ["a"]) }
-        .to raise_error(RunApi::Core::ValidationError, /requires model veo-3.1-fast or veo-3.1-lite/)
     end
   end
 

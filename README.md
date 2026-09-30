@@ -41,7 +41,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-veo-3.1:0.1.2")
+  implementation("ai.runapi:runapi-veo-3.1:0.2.0")
 }
 ```
 
@@ -51,7 +51,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-veo-3.1</artifactId>
-  <version>0.1.2</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
@@ -59,7 +59,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.7.0"))
+  implementation(platform("ai.runapi:runapi-bom:0.9.0"))
   implementation("ai.runapi:runapi-veo-3.1")
 }
 ```
